@@ -30,8 +30,8 @@ PlaceRecognition::~PlaceRecognition()
 * TODO: use the salience mask somehow
 */
 void PlaceRecognition::generateDiagonalMatrix(
-	const ImageDataset& reference,
-	const ImageDataset& query,
+	const ImageDatasetInterface& reference,
+	const ImageDatasetInterface& query,
 	cv::Mat& output,
 	std::list<ImageFilterInterface*> filters,
 	cv::Mat& salienceMask) const
@@ -42,14 +42,16 @@ void PlaceRecognition::generateDiagonalMatrix(
 
 	for (i = 0; i < query.count(); ++i) {
 		// Load the query image and apply filters
-		if (!query.get(i, queryImage)) {
+		queryImage = query.get(i);
+		if (queryImage.empty()) {
 			continue;
 		}
 		ImageFilterInterface::applyFilters(queryImage, filters);
 
 		for (j = 0; j < reference.count(); ++j) {
 			// Load the reference image and apply filters
-			if (!reference.get(i, referenceImage)) {
+			referenceImage = reference.get(i);
+			if (referenceImage.empty()) {
 				continue;
 			}
 			ImageFilterInterface::applyFilters(referenceImage, filters);
@@ -64,8 +66,8 @@ void PlaceRecognition::generateDiagonalMatrix(
 * Overload generate salience mask, without any image filters.
 */
 void PlaceRecognition::generateSalienceMask(
-	const ImageDataset& reference,
-	const ImageDataset& query,
+	const ImageDatasetInterface& reference,
+	const ImageDatasetInterface& query,
 	cv::Mat& mask) const
 {
 	std::list<ImageFilterInterface*> filters;
@@ -78,8 +80,8 @@ void PlaceRecognition::generateSalienceMask(
 * It's also generating a bad salience mask.
 */
 void PlaceRecognition::generateSalienceMask(
-	const ImageDataset& reference,
-	const ImageDataset& query,
+	const ImageDatasetInterface& reference,
+	const ImageDatasetInterface& query,
 	cv::Mat& mask,
 	std::list<ImageFilterInterface*>& filters) const
 {
@@ -90,8 +92,9 @@ void PlaceRecognition::generateSalienceMask(
 
 	for (index = 0; index < datasetSize; ++index) {
 		// Read images and validate input. Move to next pair if there's as problem.
-		if (!reference.get(index, referenceImage) ||
-			!query.get(index, queryImage)) {
+		referenceImage = reference.get(index);
+		queryImage = query.get(index);
+		if (referenceImage.empty() || queryImage.empty()) {
 			continue;
 		}
 

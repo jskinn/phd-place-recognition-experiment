@@ -21,7 +21,7 @@
 class CachedDataset : public ImageDatasetInterface
 {
 public:
-	CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, std::list<ImageFilterInterface*>& filters = std::list<ImageFilterInterface*>());
+	CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, const std::list<ImageFilterInterface*>& filters = std::list<ImageFilterInterface*>());
 	~CachedDataset();
 
 	virtual int count() const;

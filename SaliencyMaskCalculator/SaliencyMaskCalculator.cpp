@@ -16,14 +16,10 @@
 
 #include "DownsampleFilter.h"
 #include "GreyscaleFilter.h"
-#include "ImageDataset.h"
+#include "CachedDataset.h"
 #include "PlaceRecognition.h"
 
 int main(int argc, char* argv[]) {
-	// Set up the image datasets
-	ImageDataset reference("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10);
-	ImageDataset query("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10);
-
 	// Set up the image filters
 	DownsampleFilter dsf(256, 256);
 	GreyscaleFilter gf;
@@ -31,11 +27,15 @@ int main(int argc, char* argv[]) {
 	filters.push_back(&dsf);
 	filters.push_back(&gf);
 
+	// Set up the image datasets
+	CachedDataset reference("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	CachedDataset query("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+
 	// Set up the place recognition object and output image
 	PlaceRecognition placerecog;
 	cv::Mat salienceMask;
 
-	placerecog.generateSalienceMask(reference, query, salienceMask, filters);
+	placerecog.generateSalienceMask(reference, query, salienceMask);
 
 	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\saliency mask.png", salienceMask);
 

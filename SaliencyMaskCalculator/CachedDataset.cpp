@@ -6,13 +6,14 @@
 */
 
 #include "stdafx.h"
+#include <iostream>
 #include <sstream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "CachedDataset.h"
 
 
-CachedDataset::CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, std::list<ImageFilterInterface*>& filters) : _count(count)
+CachedDataset::CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, const std::list<ImageFilterInterface*>& filters) : _count(count)
 {
 	int index;
 
@@ -23,20 +24,22 @@ CachedDataset::CachedDataset(std::string prefix, std::string suffix, int count, 
 	for (index = 0; index < count; index++) {
 		// Build the filename for the image
 		std::stringstream filenameBuilder;
-		int id = initialIndex + (step * count);
+		int id = initialIndex + (step * index);
 		filenameBuilder << prefix;
 		int tempPad = pad;
-		while (index < tempPad) {
+		while (id < tempPad) {
 			filenameBuilder << '0';
 			tempPad /= 10;
 		}
 		filenameBuilder << id << suffix;
 
 		// Load the image
-		this->imageStorage[index] = cv::imread(filenameBuilder.str(), cv::IMREAD_COLOR);
+		this->imageStorage[index] = cv::imread(filenameBuilder.str().c_str(), cv::IMREAD_COLOR);
 
 		// Apply the filters
-		if (filters.size() > 0) {
+		if (this->imageStorage[index].empty()) {
+			std::cout << "Could not load image " << filenameBuilder.str() << std::endl;
+		} else if (filters.size() > 0) {
 			ImageFilterInterface::applyFilters(this->imageStorage[index], filters);
 		}
 	}
@@ -52,7 +55,8 @@ int CachedDataset::count() const {
 }
 
 cv::Mat& CachedDataset::get(int index) const {
-	if (index > 0 && index < this->_count) {
+	if (index >= 0 && index < this->_count) {
 		return this->imageStorage[index];
 	}
+	return cv::Mat();
 }
