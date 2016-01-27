@@ -17,8 +17,8 @@ public:
 	ImageDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad);
 	~ImageDataset();
 
-	int count() const;
-	bool get(int index, cv::Mat& output) const;
+	virtual int count() const;
+	virtual bool get(int index, cv::Mat& output) const;
 
 private:
 	std::string prefix, suffix;

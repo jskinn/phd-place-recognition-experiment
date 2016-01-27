@@ -39,6 +39,12 @@
     <ClInclude Include="PlaceRecognition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageDatasetInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CachedDataset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlaceRecognition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageDatasetInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CachedDataset.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
