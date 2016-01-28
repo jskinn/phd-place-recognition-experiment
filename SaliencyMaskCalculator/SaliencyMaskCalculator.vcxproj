@@ -157,6 +157,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AverageDifferenceMaskGenerator.h" />
     <ClInclude Include="CachedDataset.h" />
     <ClInclude Include="DownsampleFilter.h" />
     <ClInclude Include="GreyscaleFilter.h" />
@@ -164,11 +165,13 @@
     <ClInclude Include="ImageDatasetInterface.h" />
     <ClInclude Include="ImageFilterInterface.h" />
     <ClInclude Include="PlaceRecognition.h" />
+    <ClInclude Include="SalienceMask.h" />
     <ClInclude Include="SalienceMaskGeneratorInterface.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AverageDifferenceMaskGenerator.cpp" />
     <ClCompile Include="CachedDataset.cpp" />
     <ClCompile Include="DownsampleFilter.cpp" />
     <ClCompile Include="GreyscaleFilter.cpp" />
@@ -176,6 +179,7 @@
     <ClCompile Include="ImageDatasetInterface.cpp" />
     <ClCompile Include="ImageFilterInterface.cpp" />
     <ClCompile Include="PlaceRecognition.cpp" />
+    <ClCompile Include="SalienceMask.cpp" />
     <ClCompile Include="SalienceMaskGeneratorInterface.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">

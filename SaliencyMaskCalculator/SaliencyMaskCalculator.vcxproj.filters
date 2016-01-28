@@ -13,6 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ImageFilters">
+      <UniqueIdentifier>{7db5f1d8-3aaf-4dd8-b835-41a26d365295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageFilters\Header Files">
+      <UniqueIdentifier>{e98e7d9c-63f3-4d60-b68d-efc36ada0c9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageFilters\Source Files">
+      <UniqueIdentifier>{e310d588-0d6f-408c-80b4-9226c698f3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dataset">
+      <UniqueIdentifier>{24ef478f-6398-43b7-a615-bbae5b44eaef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dataset\Header Files">
+      <UniqueIdentifier>{f8093995-6ce9-4679-bf79-13c47fe62675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dataset\Source Files">
+      <UniqueIdentifier>{c54d6fc8-0c11-4314-9d27-33f34aa83288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask">
+      <UniqueIdentifier>{c22413f5-2b80-4832-b34d-357b0b940376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Source Files">
+      <UniqueIdentifier>{1fd3e280-1104-4853-aa8a-138914d3fea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Header Files">
+      <UniqueIdentifier>{4b0691bd-0f92-462c-b299-5d146768cb17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,61 +51,73 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImageFilterInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GreyscaleFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DownsampleFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageDataset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlaceRecognition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ImageDatasetInterface.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="DownsampleFilter.h">
+      <Filter>ImageFilters\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GreyscaleFilter.h">
+      <Filter>ImageFilters\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageFilterInterface.h">
+      <Filter>ImageFilters\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CachedDataset.h">
-      <Filter>Header Files</Filter>
+      <Filter>Dataset\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageDataset.h">
+      <Filter>Dataset\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageDatasetInterface.h">
+      <Filter>Dataset\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SalienceMaskGeneratorInterface.h">
-      <Filter>Header Files</Filter>
+      <Filter>Salience Mask\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SalienceMask.h">
+      <Filter>Salience Mask\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageDifferenceMaskGenerator.h">
+      <Filter>Salience Mask\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImageFilterInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GreyscaleFilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DownsampleFilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageDataset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlaceRecognition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageDatasetInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CachedDataset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SalienceMaskGeneratorInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DownsampleFilter.cpp">
+      <Filter>ImageFilters\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GreyscaleFilter.cpp">
+      <Filter>ImageFilters\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageFilterInterface.cpp">
+      <Filter>ImageFilters\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageDatasetInterface.cpp">
+      <Filter>Dataset\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CachedDataset.cpp">
+      <Filter>Dataset\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageDataset.cpp">
+      <Filter>Dataset\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SalienceMaskGeneratorInterface.cpp">
+      <Filter>Salience Mask\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SalienceMask.cpp">
+      <Filter>Salience Mask\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageDifferenceMaskGenerator.cpp">
+      <Filter>Salience Mask\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

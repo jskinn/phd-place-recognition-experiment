@@ -22,7 +22,7 @@ class CachedDataset : public ImageDatasetInterface
 {
 public:
 	CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, const std::list<ImageFilterInterface*>& filters = std::list<ImageFilterInterface*>());
-	~CachedDataset();
+	virtual ~CachedDataset();
 
 	virtual int count() const;
 	virtual cv::Mat& get(int index) const;

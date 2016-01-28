@@ -15,7 +15,7 @@ class ImageDataset
 {
 public:
 	ImageDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad);
-	~ImageDataset();
+	virtual ~ImageDataset();
 
 	virtual int count() const;
 	virtual bool get(int index, cv::Mat& output) const;

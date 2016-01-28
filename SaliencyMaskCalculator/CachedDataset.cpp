@@ -58,5 +58,5 @@ cv::Mat& CachedDataset::get(int index) const {
 	if (index >= 0 && index < this->_count) {
 		return this->imageStorage[index];
 	}
-	return cv::Mat();
+	return this->imageStorage[0];
 }

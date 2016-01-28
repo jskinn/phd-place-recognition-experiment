@@ -13,7 +13,7 @@
 class ImageDatasetInterface
 {
 public:
-	~ImageDatasetInterface() {};
+	virtual ~ImageDatasetInterface() {};
 
 	virtual int count() const = 0;
 	virtual cv::Mat& get(int index) const = 0;
