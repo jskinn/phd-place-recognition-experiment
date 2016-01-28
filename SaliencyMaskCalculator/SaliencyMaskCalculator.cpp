@@ -21,7 +21,7 @@
 
 int main(int argc, char* argv[]) {
 	// Set up the image filters
-	DownsampleFilter dsf(256, 256);
+	DownsampleFilter dsf(64, 64);
 	GreyscaleFilter gf;
 	std::list<ImageFilterInterface*> filters;
 	filters.push_back(&dsf);
@@ -33,14 +33,16 @@ int main(int argc, char* argv[]) {
 
 	// Set up the place recognition object and output image
 	PlaceRecognition placerecog;
-	cv::Mat salienceMask;
+	//cv::Mat salienceMask;
+	cv::Mat diagonalMatrix;
 
-	placerecog.generateSalienceMask(reference, query, salienceMask);
+	//placerecog.generateSalienceMask(reference, query, salienceMask);
+	placerecog.generateDiagonalMatrix(reference, query, diagonalMatrix);
 
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\saliency mask.png", salienceMask);
+	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix.png", diagonalMatrix);
 
 	cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
-	cv::imshow("Display window", salienceMask);                  // Show our image inside it.
+	cv::imshow("Display window", diagonalMatrix);                  // Show our image inside it.
 	cv::waitKey(0);                                         // Wait for a keystroke in the window
 	return 0;
 }

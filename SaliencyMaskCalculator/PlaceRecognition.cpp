@@ -36,28 +36,29 @@ void PlaceRecognition::generateDiagonalMatrix(
 	std::list<ImageFilterInterface*> filters,
 	cv::Mat& salienceMask) const
 {
-	int i, j;
-	cv::Mat referenceImage, queryImage, diffImage;
-	output = cv::Mat::zeros(reference.count(), query.count(), CV_32F);
+	output = cv::Mat::zeros(reference.count(), query.count(), CV_32FC1);
 
-	for (i = 0; i < query.count(); ++i) {
+	for (int i = 0; i < query.count(); ++i) {
 		// Load the query image and apply filters
-		queryImage = query.get(i);
+		cv::Mat queryImage = query.get(i);
 		if (queryImage.empty()) {
 			continue;
 		}
 		ImageFilterInterface::applyFilters(queryImage, filters);
 
-		for (j = 0; j < reference.count(); ++j) {
+		for (int j = 0; j < reference.count(); ++j) {
 			// Load the reference image and apply filters
-			referenceImage = reference.get(i);
+			cv::Mat referenceImage = reference.get(j);
 			if (referenceImage.empty()) {
 				continue;
 			}
 			ImageFilterInterface::applyFilters(referenceImage, filters);
 
+			cv::Mat diffImage;
 			cv::absdiff(referenceImage, queryImage, diffImage);
-			output.at<cv::Scalar>(i,j) = cv::sum(diffImage);
+			cv::Scalar sum = cv::sum(diffImage);
+			//std::cout << "abs dif at " << i << ", " << j << ": " << sum << std::endl;
+			output.at<float>(i,j) = sum[0] / (diffImage.rows * diffImage.cols);
 		}
 	}
 }
