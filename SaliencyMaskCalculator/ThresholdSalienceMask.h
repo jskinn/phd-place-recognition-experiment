@@ -13,7 +13,7 @@
 /**
  * A salience mask that includes only the pixels within the top percentage of salience.
  */
-class ThresholdSalienceMask : SalienceMaskInterface
+class ThresholdSalienceMask : public SalienceMaskInterface
 {
 public:
 	ThresholdSalienceMask(cv::Mat& maskImage);

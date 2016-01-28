@@ -19,6 +19,7 @@
 #include "CachedDataset.h"
 #include "PlaceRecognition.h"
 #include "AverageDifferenceMaskGenerator.h"
+#include "ThresholdSalienceMask.h"
 
 int main(int argc, char* argv[]) {
 	// Set up the image filters
@@ -46,6 +47,8 @@ int main(int argc, char* argv[]) {
 	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\salience mask.png", salienceMaskImage);
 
 	// Generate a final diagonal matrix using the salience mask.
+	placerecog.generateDiagonalMatrix(reference, query, ThresholdSalienceMask(salienceMaskImage), diagonalMatrix);
+	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
 
 	//cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
 	//cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.

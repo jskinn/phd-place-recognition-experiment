@@ -13,7 +13,7 @@
 /**
  * A null salience mask. Doesn't mask anything, and takes next to no memory.
  */
-class NullSalienceMask : SalienceMaskInterface
+class NullSalienceMask : public SalienceMaskInterface
 {
 public:
 	NullSalienceMask();

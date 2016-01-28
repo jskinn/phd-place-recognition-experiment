@@ -1,7 +1,17 @@
-#pragma once
+/*
+* AverageDifferenceMaskGenerator.h
+*
+*  Created on: 28 Jan 2016
+*      Author: john
+*/
+
+
+#ifndef AVERAGEDIFFERENCEMASKGENERATOR_H_
+#define AVERAGEDIFFERENCEMASKGENERATOR_H_
+
 #include "SalienceMaskGeneratorInterface.h"
-class AverageDifferenceMaskGenerator :
-	public SalienceMaskGeneratorInterface
+
+class AverageDifferenceMaskGenerator : public SalienceMaskGeneratorInterface
 {
 public:
 	AverageDifferenceMaskGenerator();
@@ -19,3 +29,4 @@ public:
 		cv::Mat& outputMask) const;
 };
 
+#endif /* AVERAGEDIFFERENCEMASKGENERATOR_H_ */

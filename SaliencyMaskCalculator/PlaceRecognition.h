@@ -13,6 +13,7 @@
 #include <opencv2/core/core.hpp>
 #include "ImageFilterInterface.h"
 #include "ImageDatasetInterface.h"
+#include "SalienceMaskInterface.h"
 
 class PlaceRecognition
 {
@@ -23,20 +24,13 @@ public:
 	virtual void generateDiagonalMatrix(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
-		cv::Mat& output,
-		std::list<ImageFilterInterface*> filters = std::list<ImageFilterInterface*>(),
-		cv::Mat& salienceMask = cv::Mat()) const;
+		cv::Mat& output) const;
 
-	virtual void generateSalienceMask(
+	virtual void generateDiagonalMatrix(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
-		cv::Mat& mask) const;
-
-	virtual void generateSalienceMask(
-		const ImageDatasetInterface& reference,
-		const ImageDatasetInterface& query,
-		cv::Mat& mask,
-		std::list<ImageFilterInterface*>& filters) const;
+		SalienceMaskInterface& salienceMask,
+		cv::Mat& output) const;
 };
 
 #endif /* PLACERECOGNITION_H_ */
