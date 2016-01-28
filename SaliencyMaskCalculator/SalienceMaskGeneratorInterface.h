@@ -13,7 +13,6 @@
 #include <opencv2/core/core.hpp>
 #include "ImageFilterInterface.h"
 #include "ImageDatasetInterface.h"
-#include "SalienceMask.h"
 
 class SalienceMaskGeneratorInterface
 {
@@ -25,18 +24,20 @@ public:
 	 * Overloaded to not have any filters,
 	 * See the method below
 	 */
-	virtual SalienceMask generateSalienceMask(
+	virtual void generateSalienceMask(
 		const ImageDatasetInterface& reference,
-		const ImageDatasetInterface& query) const = 0;
+		const ImageDatasetInterface& query,
+		cv::Mat& outputMask) const = 0;
 
 	/**
 	 * Generate a salience mask.
 	 * 
 	 */
-	virtual SalienceMask generateSalienceMask(
+	virtual void generateSalienceMask(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
-		std::list<ImageFilterInterface*>& filters) const = 0;
+		std::list<ImageFilterInterface*>& filters,
+		cv::Mat& outputMask) const = 0;
 };
 
 #endif /* SALIENCEMASKGENERATORINTERFACE_H_ */
