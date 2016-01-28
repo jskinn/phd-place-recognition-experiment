@@ -45,12 +45,12 @@
     <ClInclude Include="CachedDataset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SalienceMaskGeneratorInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SaliencyMaskCalculator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImageFilterInterface.cpp">
@@ -72,6 +72,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CachedDataset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SalienceMaskGeneratorInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
