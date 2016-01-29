@@ -9,6 +9,8 @@
 #include "ThresholdSalienceMask.h"
 #include <opencv2/imgproc/imgproc.hpp>
 
+//include <opencv2/highgui/highgui.hpp>
+
 ThresholdSalienceMask::ThresholdSalienceMask(cv::Mat& maskImage, float thresholdFraction)
 {
 	double min, max;
@@ -16,6 +18,10 @@ ThresholdSalienceMask::ThresholdSalienceMask(cv::Mat& maskImage, float threshold
 	double threshold = min + thresholdFraction * (max - min);
 	cv::threshold(maskImage, this->mask, threshold, 1.0f, cv::THRESH_BINARY);
 	this->removedPixelCount = (maskImage.rows * maskImage.cols) - cv::countNonZero(this->mask);
+
+	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
+	cv::imshow("Display window", this->mask);               // Show our image inside it.
+	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 }
 
 ThresholdSalienceMask::~ThresholdSalienceMask()
