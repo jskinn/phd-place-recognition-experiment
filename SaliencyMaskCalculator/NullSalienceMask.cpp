@@ -16,6 +16,11 @@ NullSalienceMask::~NullSalienceMask()
 {
 }
 
+int NullSalienceMask::getNumberOfRemovedPixels() const
+{
+	return 0;
+}
+
 void NullSalienceMask::applyMask(cv::Mat& image) const
 {
 

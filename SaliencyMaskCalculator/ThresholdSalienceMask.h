@@ -16,13 +16,15 @@
 class ThresholdSalienceMask : public SalienceMaskInterface
 {
 public:
-	ThresholdSalienceMask(cv::Mat& maskImage);
+	ThresholdSalienceMask(cv::Mat& maskImage, float thresholdFraction);
 	virtual ~ThresholdSalienceMask();
 
+	virtual int getNumberOfRemovedPixels() const;
 	virtual void applyMask(cv::Mat& image) const;
 
 private:
-	cv::Mat maskImage;
+	cv::Mat mask;
+	int removedPixelCount;
 };
 
 #endif /* THRESHOLDSALIENCEMASK_H_ */

@@ -19,6 +19,7 @@ public:
 	NullSalienceMask();
 	virtual ~NullSalienceMask();
 
+	virtual int getNumberOfRemovedPixels() const;
 	virtual void applyMask(cv::Mat& image) const;
 };
 

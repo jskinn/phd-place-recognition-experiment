@@ -16,6 +16,7 @@ class SalienceMaskInterface
 public:
 	virtual ~SalienceMaskInterface() {};
 
+	virtual int getNumberOfRemovedPixels() const = 0;
 	virtual void applyMask(cv::Mat& image) const = 0;
 };
 

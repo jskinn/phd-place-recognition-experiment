@@ -40,11 +40,9 @@ void AverageDifferenceMaskGenerator::generateSalienceMask(
 	cv::Mat& outputMask) const
 {
 	int datasetSize = std::min(reference.count(), query.count());
-	double sadSum(0.0);
-	int index;
 	cv::Mat avgDiff;
 
-	for (index = 0; index < datasetSize; ++index) {
+	for (int index = 0; index < datasetSize; ++index) {
 		// Read images and validate input. Move to next pair if there's as problem.
 		cv::Mat referenceImage = reference.get(index);
 		cv::Mat queryImage = query.get(index);
@@ -55,15 +53,17 @@ void AverageDifferenceMaskGenerator::generateSalienceMask(
 		// Apply all the filters to the images
 		ImageFilterInterface::applyFilters(referenceImage, filters);
 		ImageFilterInterface::applyFilters(queryImage, filters);
-
 		cv::Mat diffImage;
 		cv::absdiff(referenceImage, queryImage, diffImage);
+
 		if (index == 0) {
-			diffImage.assignTo(avgDiff, CV_32F);
+			diffImage.convertTo(avgDiff, CV_32FC1, 1 / 255.0);
 		}
 		else {
-			cv::add(avgDiff, diffImage, avgDiff, cv::noArray(), CV_32F);
+			diffImage.convertTo(diffImage, CV_32FC1, 1 / 255.0);
+			avgDiff += diffImage;
 		}
 	}
-	outputMask = avgDiff * (1.0 / datasetSize);
+	//TODO: This needs to be inverted somehow?
+	outputMask = avgDiff / datasetSize;
 }

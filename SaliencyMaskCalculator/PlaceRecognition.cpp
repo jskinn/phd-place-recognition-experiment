@@ -7,7 +7,6 @@
 
 #include "stdafx.h"
 #include <algorithm>
-#include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "ImageFilterInterface.h"
@@ -50,11 +49,17 @@ void PlaceRecognition::generateDiagonalMatrix(
 				continue;
 			}
 
-			// Take the absolute difference between 
+			// Take the absolute difference between the reference and query images.
 			cv::Mat diffImage;
 			cv::absdiff(referenceImage, queryImage, diffImage);
+			diffImage.convertTo(diffImage, CV_32FC1, 1 / 255.0);
+
+			// Mask the image throug the salience mask
+			salienceMask.applyMask(diffImage);
+
 			cv::Scalar sum = cv::sum(diffImage);
-			output.at<float>(i,j) = sum[0] / (diffImage.rows * diffImage.cols);
+			int numPixels = (diffImage.rows * diffImage.cols) - salienceMask.getNumberOfRemovedPixels();
+			output.at<float>(i,j) = (float) sum[0] / numPixels;
 		}
 	}
 }
