@@ -99,6 +99,9 @@
     <ClInclude Include="PairwiseSalienceMaskGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WeightingSalienceMask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -144,6 +147,9 @@
       <Filter>Salience Mask\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PairwiseSalienceMaskGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeightingSalienceMask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

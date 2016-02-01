@@ -21,6 +21,7 @@
 #include "AverageDifferenceMaskGenerator.h"
 #include "PairwiseSalienceMaskGenerator.h"
 #include "ThresholdSalienceMask.h"
+#include "WeightingSalienceMask.h"
 
 /**
  * A simple helper to write out float images from a range 0-1,
