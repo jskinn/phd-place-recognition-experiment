@@ -7,6 +7,7 @@
 
 #include "stdafx.h"
 #include <algorithm>
+#include <assert.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "ImageFilterInterface.h"
@@ -59,7 +60,10 @@ void PlaceRecognition::generateDiagonalMatrix(
 
 			cv::Scalar sum = cv::sum(diffImage);
 			int numPixels = (diffImage.rows * diffImage.cols) - salienceMask.getNumberOfRemovedPixels();
-			output.at<float>(i,j) = (float) sum[0] / numPixels;
+			float matchScore = (float)sum[0] / numPixels;
+			assert(matchScore >= 0.0f);
+			assert(matchScore <= 1.0f);
+			output.at<float>(i,j) = matchScore;
 		}
 	}
 }
@@ -70,4 +74,37 @@ void PlaceRecognition::generateDiagonalMatrix(
 	cv::Mat& output) const
 {
 	this->generateDiagonalMatrix(reference, query, NullSalienceMask(), output);
+}
+
+/**
+ * Measure the performance of the place recognition, as encoded in the diagonal matrix.
+ * Makes the following assumptions:
+ *   - The diagonal matrix index is (queryIndex, referenceIndex), so the number of rows are the number of query images and columns the number of reference images.
+ *   - Matching indexes on the query and reference images indicate that the images are from the same place.
+ *   - The diagonal matrix pixels are in the range 0 - 1, with lower numbers indicating a closer match.
+ */
+float PlaceRecognition::measurePerformance(cv::Mat& diagonalMatrix, int similarityWindow) const
+{
+	float correctCount = 0;
+	int querySize = diagonalMatrix.rows;
+	int referenceSize = diagonalMatrix.cols;
+
+	for (int i = 0; i < querySize; ++i) {
+		float bestScore = 1.0f;	// Theoretical max value for the diagonal matrix at 
+		int bestIndex = -1;
+
+		for (int j = 0; j < referenceSize; ++j) {
+			float score = diagonalMatrix.at<float>(i, j);
+			if (score < bestScore) {
+				bestScore = score;
+				bestIndex = j;
+			}
+		}
+
+		if (std::abs(i - bestIndex) <= similarityWindow) {
+			correctCount++;
+		}
+	}
+
+	return correctCount / querySize;
 }

@@ -31,6 +31,8 @@ public:
 		const ImageDatasetInterface& query,
 		SalienceMaskInterface& salienceMask,
 		cv::Mat& output) const;
+
+	virtual float measurePerformance(cv::Mat& diagonalMatrix, int similarityWindow = 1) const;
 };
 
 #endif /* PLACERECOGNITION_H_ */

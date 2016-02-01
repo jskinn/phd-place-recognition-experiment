@@ -43,8 +43,8 @@ int main(int argc, char* argv[]) {
 	filters.push_back(&gf);
 
 	// Set up the image datasets
-	CachedDataset reference("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
-	CachedDataset query("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	CachedDataset reference("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
+	CachedDataset query("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
 	std::cout << "Datasets loaded" << std::endl;
 
 	// Set up the place recognition object, salience mask generator, and output image
@@ -56,6 +56,10 @@ int main(int argc, char* argv[]) {
 	placerecog.generateDiagonalMatrix(reference, query, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix no mask.png", diagonalMatrix);
 	std::cout << "Created base diagonal matrix" << std::endl;
+
+	// Print the matching accuracy without the salience mask
+	float performanceWithoutMask = placerecog.measurePerformance(diagonalMatrix, 1);
+	std::cout << "Matching accuracy without salience mask: " << performanceWithoutMask << std::endl;
 
 	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
 	cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.
@@ -75,11 +79,17 @@ int main(int argc, char* argv[]) {
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
 
+	// Print the accuracy percentage for the final diagonal matrix
+	float performanceWithMask = placerecog.measurePerformance(diagonalMatrix, 1);
+	std::cout << "Matching accuracy with salience mask: " << performanceWithMask << std::endl;
+
 	// Show the final diagonal matrix
 	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
 	cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.
 	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 
+	std::system("pause");
+	
 	return 0;
 }
 
