@@ -13,50 +13,45 @@
 #include "CachedDataset.h"
 
 
-CachedDataset::CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, const std::list<ImageFilterInterface*>& filters) : _count(count)
+CachedDataset::CachedDataset(const std::list<ImageLoaderInterface*>& imageLoaders) :
+	_count(0)
 {
-	int index;
+	// Go through all the image loaders to determine the total number of images to load.
+	for (std::list<ImageLoaderInterface*>::const_iterator iter = imageLoaders.begin(); iter != imageLoaders.end(); ++iter) {
+		this->_count += (*iter)->getCount();
+	}
 
-	// Allocate storage for all the images
-	this->imageStorage = new cv::Mat[count];
+	// Allocate the vector
+	this->_imageStorage = std::vector<DatasetImage*>(this->_count, NULL);
 
 	// Load all the images
-	for (index = 0; index < count; index++) {
-		// Build the filename for the image
-		std::stringstream filenameBuilder;
-		int id = initialIndex + (step * index);
-		filenameBuilder << prefix;
-		int tempPad = pad;
-		while (id < tempPad) {
-			filenameBuilder << '0';
-			tempPad /= 10;
-		}
-		filenameBuilder << id << suffix;
-
-		// Load the image
-		this->imageStorage[index] = cv::imread(filenameBuilder.str().c_str(), cv::IMREAD_COLOR);
-
-		// Apply the filters
-		if (this->imageStorage[index].empty()) {
-			std::cout << "Could not load image " << filenameBuilder.str() << std::endl;
-		} else if (filters.size() > 0) {
-			ImageFilterInterface::applyFilters(this->imageStorage[index], filters);
-		}
+	int offset = 0;
+	for (std::list<ImageLoaderInterface*>::const_iterator iter = imageLoaders.begin(); iter != imageLoaders.end(); ++iter) {
+		(*iter)->loadImages(this->_imageStorage, offset);
+		offset += (*iter)->getCount();
 	}
 }
 
 CachedDataset::~CachedDataset()
 {
-	delete[] this->imageStorage;
+	// Clean up all the images stored in this dataset.
+	for (std::vector<DatasetImage*>::iterator iter = this->_imageStorage.begin(); iter != this->_imageStorage.end(); ++iter) {
+		delete *iter;
+	}
 }
 
 int CachedDataset::count() const {
 	return this->_count;
 }
 
-cv::Mat& CachedDataset::get(int index) const {
+DatasetImage& CachedDataset::get(int index) const {
 	if (index >= 0 && index < this->_count) {
-		return this->imageStorage[index];
+		return *this->_imageStorage[index];
 	}
-	return this->imageStorage[0];
+	else if (index < 0) {
+		return *this->_imageStorage[0];
+	}
+	else {
+		return *this->_imageStorage[this->_count - 1];
+	}
 }

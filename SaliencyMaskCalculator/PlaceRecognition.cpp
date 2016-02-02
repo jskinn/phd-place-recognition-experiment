@@ -8,9 +8,8 @@
 #include "stdafx.h"
 #include <algorithm>
 #include <assert.h>
-#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "ImageFilterInterface.h"
+#include "DatasetImage.h"
 #include "NullSalienceMask.h"
 #include "PlaceRecognition.h"
 
@@ -37,22 +36,22 @@ void PlaceRecognition::generateDiagonalMatrix(
 	output = cv::Mat::zeros(reference.count(), query.count(), CV_32FC1);
 
 	for (int i = 0; i < query.count(); ++i) {
-		// Load the query image and apply filters
-		cv::Mat queryImage = query.get(i);
-		if (queryImage.empty()) {
+		// Load the query image
+		DatasetImage queryImage = query.get(i);
+		if (&queryImage == NULL) {
 			continue;
 		}
 
 		for (int j = 0; j < reference.count(); ++j) {
-			// Load the reference image and apply filters
-			cv::Mat referenceImage = reference.get(j);
-			if (referenceImage.empty()) {
+			// Load the reference image
+			DatasetImage referenceImage = reference.get(j);
+			if (&referenceImage == NULL) {
 				continue;
 			}
 
 			// Take the absolute difference between the reference and query images.
 			cv::Mat diffImage;
-			cv::absdiff(referenceImage, queryImage, diffImage);
+			cv::absdiff(referenceImage.getImage(), queryImage.getImage(), diffImage);
 			diffImage.convertTo(diffImage, CV_32FC1, 1 / 255.0);
 
 			// Mask the image throug the salience mask

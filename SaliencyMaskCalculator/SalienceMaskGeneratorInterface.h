@@ -21,22 +21,10 @@ public:
 
 	/**
 	 * Generate a salience mask.
-	 * Overloaded to not have any filters,
-	 * See the method below
 	 */
 	virtual void generateSalienceMask(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
-		cv::Mat& outputMask) const = 0;
-
-	/**
-	 * Generate a salience mask.
-	 * 
-	 */
-	virtual void generateSalienceMask(
-		const ImageDatasetInterface& reference,
-		const ImageDatasetInterface& query,
-		std::list<ImageFilterInterface*>& filters,
 		cv::Mat& outputMask) const = 0;
 };
 

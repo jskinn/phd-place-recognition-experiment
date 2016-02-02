@@ -6,6 +6,7 @@
 */
 
 #include "stdafx.h"
+#include "DatasetImage.h"
 #include "AverageDifferenceMaskGenerator.h"
 
 AverageDifferenceMaskGenerator::AverageDifferenceMaskGenerator()
@@ -17,18 +18,6 @@ AverageDifferenceMaskGenerator::~AverageDifferenceMaskGenerator()
 }
 
 /**
-* Overload generate salience mask, without any image filters.
-*/
-void AverageDifferenceMaskGenerator::generateSalienceMask(
-	const ImageDatasetInterface& reference,
-	const ImageDatasetInterface& query,
-	cv::Mat& outputMask) const
-{
-	std::list<ImageFilterInterface*> filters;
-	return this->generateSalienceMask(reference, query, filters, outputMask);
-}
-
-/**
 * Generate a salience mask, by comparing
 * TODO: This needs tweaking, it's assuming the indexes in the datasets match ground truth,
 * It's also generating a bad salience mask.
@@ -36,7 +25,6 @@ void AverageDifferenceMaskGenerator::generateSalienceMask(
 void AverageDifferenceMaskGenerator::generateSalienceMask(
 	const ImageDatasetInterface& reference,
 	const ImageDatasetInterface& query,
-	std::list<ImageFilterInterface*>& filters,
 	cv::Mat& outputMask) const
 {
 	int datasetSize = std::min(reference.count(), query.count());
@@ -44,17 +32,15 @@ void AverageDifferenceMaskGenerator::generateSalienceMask(
 
 	for (int index = 0; index < datasetSize; ++index) {
 		// Read images and validate input. Move to next pair if there's as problem.
-		cv::Mat referenceImage = reference.get(index);
-		cv::Mat queryImage = query.get(index);
-		if (referenceImage.empty() || queryImage.empty()) {
+		DatasetImage referenceImage = reference.get(index);
+		DatasetImage queryImage = query.get(index);
+		if (&referenceImage == NULL || &queryImage == NULL) {
 			continue;
 		}
 
-		// Apply all the filters to the images
-		ImageFilterInterface::applyFilters(referenceImage, filters);
-		ImageFilterInterface::applyFilters(queryImage, filters);
+		// Calculate the difference image
 		cv::Mat diffImage;
-		cv::absdiff(referenceImage, queryImage, diffImage);
+		cv::absdiff(referenceImage.getImage(), queryImage.getImage(), diffImage);
 
 		if (index == 0) {
 			diffImage.convertTo(avgDiff, CV_32FC1, 1 / 255.0);

@@ -8,8 +8,9 @@
 #ifndef CACHEDDATASET_H_
 #define CACHEDDATASET_H_
 
+#include <vector>
 #include <list>
-#include "ImageFilterInterface.h"
+#include "ImageLoaderInterface.h"
 #include "ImageDatasetInterface.h"
 
 /**
@@ -21,14 +22,14 @@
 class CachedDataset : public ImageDatasetInterface
 {
 public:
-	CachedDataset(std::string prefix, std::string suffix, int count, int initialIndex, int step, int pad, const std::list<ImageFilterInterface*>& filters = std::list<ImageFilterInterface*>());
+	CachedDataset(const std::list<ImageLoaderInterface*>& imageLoaders);
 	virtual ~CachedDataset();
 
 	virtual int count() const;
-	virtual cv::Mat& get(int index) const;
+	virtual DatasetImage& get(int index) const;
 
 private:
-	cv::Mat* imageStorage;
+	std::vector<DatasetImage*> _imageStorage;
 	int _count;
 };
 

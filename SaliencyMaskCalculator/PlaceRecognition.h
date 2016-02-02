@@ -14,6 +14,7 @@
 #include "ImageFilterInterface.h"
 #include "ImageDatasetInterface.h"
 #include "SalienceMaskInterface.h"
+#include "DatasetImage.h"
 
 class PlaceRecognition
 {

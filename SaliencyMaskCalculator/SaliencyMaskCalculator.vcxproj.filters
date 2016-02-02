@@ -49,6 +49,24 @@
     <Filter Include="Place Recognition\Source Files">
       <UniqueIdentifier>{3d78019e-bd33-405c-b966-34e92030ec37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dataset\Loader">
+      <UniqueIdentifier>{797e812d-f4e4-4532-b5f7-88aeef6a6fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dataset\Loader\Header Files">
+      <UniqueIdentifier>{4c097b56-349c-4fdf-b9ba-98262f631bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dataset\Loader\Source Files">
+      <UniqueIdentifier>{68cda1b8-0c50-4420-91e0-c0c763440d44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ground Truth">
+      <UniqueIdentifier>{42800fcc-9edd-443f-9f76-18dd429dd95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ground Truth\Header Files">
+      <UniqueIdentifier>{fed5a8ef-e66b-4d8c-ab8c-fb2e76da571a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ground Truth\Source Files">
+      <UniqueIdentifier>{87cef0b2-6c1f-4928-8c66-2aae58996bac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -102,6 +120,21 @@
     <ClInclude Include="WeightingSalienceMask.h">
       <Filter>Salience Mask\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CompositeDataset.h">
+      <Filter>Dataset\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DatasetImage.h">
+      <Filter>Dataset\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageLoaderInterface.h">
+      <Filter>Dataset\Loader\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinearTraverseLoader.h">
+      <Filter>Dataset\Loader\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimilarityCriteria.h">
+      <Filter>Ground Truth\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -151,6 +184,21 @@
     </ClCompile>
     <ClCompile Include="WeightingSalienceMask.cpp">
       <Filter>Salience Mask\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompositeDataset.cpp">
+      <Filter>Dataset\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DatasetImage.cpp">
+      <Filter>Dataset\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageLoaderInterface.cpp">
+      <Filter>Dataset\Loader\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LinearTraverseLoader.cpp">
+      <Filter>Dataset\Loader\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimilarityCriteria.cpp">
+      <Filter>Ground Truth\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
