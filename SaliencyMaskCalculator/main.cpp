@@ -45,8 +45,11 @@ CachedDataset* buildReferenceDataset(const std::list<ImageFilterInterface*>& fil
 
 	//LinearTraverseLoader imageLoader(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
 	//LinearTraverseLoader imageLoader(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, -1166.6666666, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
-	LinearTraverseLoader imageLoader(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 60, 2, 10, 10, filters);
-	loaders.push_back(&imageLoader);
+	LinearTraverseLoader imageLoader1(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	loaders.push_back(&imageLoader1);
+
+	LinearTraverseLoader imageLoader2(cv::Vec3d(15200.0, -4000.0, 0.0), cv::Vec3d(15200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	loaders.push_back(&imageLoader2);
 
 	return new CachedDataset(loaders);
 }
@@ -59,8 +62,11 @@ CachedDataset* buildQueryDataset(const std::list<ImageFilterInterface*>& filters
 	std::list<ImageLoaderInterface*> loaders;
 
 	//LinearTraverseLoader imageLoader(cv::Vec3d(14400.0, -4000.0, 0.0), cv::Vec3d(14400.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
-	LinearTraverseLoader imageLoader(cv::Vec3d(14400.0, -4000.0, 0.0), cv::Vec3d(14400.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 60, 2, 10, 10, filters);
-	loaders.push_back(&imageLoader);
+	LinearTraverseLoader imageLoader1(cv::Vec3d(14400.0, -4000.0, 0.0), cv::Vec3d(14400.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	loaders.push_back(&imageLoader1);
+
+	LinearTraverseLoader imageLoader2(cv::Vec3d(15000.0, -4000.0, 0.0), cv::Vec3d(15000.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15000\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	loaders.push_back(&imageLoader2);
 
 	return new CachedDataset(loaders);
 }
@@ -70,25 +76,29 @@ CachedDataset* buildQueryDataset(const std::list<ImageFilterInterface*>& filters
  */
 void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& query)
 {
+	// Set some standard criteria for considering two images to have a 'similar' location
+	SimilarityCriteria similarityCriteria(300.0);
+
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
-	PairwiseSalienceMaskGenerator maskGen(SimilarityCriteria(400.0));
+	PairwiseSalienceMaskGenerator maskGen(similarityCriteria);
 	cv::Mat diagonalMatrix, salienceMaskImage;
 
 	// generate an initial diagonal matrix without a salience mask
-	placerecog.generateDiagonalMatrix(reference, query, diagonalMatrix);
+	float performaceWithoutMask = placerecog.generateDiagonalMatrix(reference, query, similarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix no mask.png", diagonalMatrix);
 	std::cout << "Created base diagonal matrix" << std::endl;
 
 	// Print the matching accuracy without the salience mask
 	//float performanceWithoutMask = placerecog.measurePerformance(diagonalMatrix, 1);
-	std::cout << "Matching accuracy without salience mask: (" <<
+	/*std::cout << "Matching accuracy without salience mask: (" <<
 		placerecog.measurePerformance(diagonalMatrix, 0) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 1) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 3) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 5) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 7) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 9) << ")" << std::endl;
+		placerecog.measurePerformance(diagonalMatrix, 9) << ")" << std::endl;*/
+	std::cout << "Matching accuracy without salience mask: " << (performaceWithoutMask * 100) << "%" << std::endl;
 
 	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
 	cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.
@@ -104,19 +114,20 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 
 	// Generate a final diagonal matrix using the salience mask.
-	placerecog.generateDiagonalMatrix(reference, query, ThresholdSalienceMask(salienceMaskImage, 0.5), diagonalMatrix);
+	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, ThresholdSalienceMask(salienceMaskImage, 0.5), similarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
 
 	// Print the accuracy percentage for the final diagonal matrix
 	//float performanceWithMask = placerecog.measurePerformance(diagonalMatrix, 1);
-	std::cout << "Matching accuracy with salience mask: (" <<
+	/*std::cout << "Matching accuracy with salience mask: (" <<
 		placerecog.measurePerformance(diagonalMatrix, 0) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 1) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 3) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 5) << ", " <<
 		placerecog.measurePerformance(diagonalMatrix, 7) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 9) << ")" << std::endl;
+		placerecog.measurePerformance(diagonalMatrix, 9) << ")" << std::endl;*/
+	std::cout << "Matching accuracy with salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
 
 	// Show the final diagonal matrix
 	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.

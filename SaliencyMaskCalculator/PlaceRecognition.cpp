@@ -27,15 +27,20 @@ PlaceRecognition::~PlaceRecognition()
 * and measuring the similar matrix.
 * We want the matrix to have a bright diagonal and low values everywhere else.
 */
-void PlaceRecognition::generateDiagonalMatrix(
+float PlaceRecognition::generateDiagonalMatrix(
 	const ImageDatasetInterface& reference,
 	const ImageDatasetInterface& query,
-	SalienceMaskInterface& salienceMask,
+	const SalienceMaskInterface& salienceMask,
+	const SimilarityCriteria& similarityCriteria,
 	cv::Mat& output) const
 {
 	output = cv::Mat::zeros(reference.count(), query.count(), CV_32FC1);
 
+	float similarMatchCount = 0.0f;
 	for (int i = 0; i < query.count(); ++i) {
+		float bestScore = 1.0f;
+		bool bestIsSimilar = false;
+
 		// Load the query image
 		DatasetImage queryImage = query.get(i);
 		if (&queryImage == NULL) {
@@ -57,53 +62,75 @@ void PlaceRecognition::generateDiagonalMatrix(
 			// Mask the image throug the salience mask
 			salienceMask.applyMask(diffImage);
 
+			// Compute the similarity score based on the sum of absolute differences between the images.
 			cv::Scalar sum = cv::sum(diffImage);
 			int numPixels = (diffImage.rows * diffImage.cols) - salienceMask.getNumberOfRemovedPixels();
 			float matchScore = (float)sum[0] / numPixels;
 			assert(matchScore >= 0.0f);
 			assert(matchScore <= 1.0f);
 			output.at<float>(i,j) = matchScore;
-		}
-	}
-}
 
-void PlaceRecognition::generateDiagonalMatrix(
-	const ImageDatasetInterface& reference,
-	const ImageDatasetInterface& query,
-	cv::Mat& output) const
-{
-	this->generateDiagonalMatrix(reference, query, NullSalienceMask(), output);
-}
-
-/**
- * Measure the performance of the place recognition, as encoded in the diagonal matrix.
- * Makes the following assumptions:
- *   - The diagonal matrix index is (queryIndex, referenceIndex), so the number of rows are the number of query images and columns the number of reference images.
- *   - Matching indexes on the query and reference images indicate that the images are from the same place.
- *   - The diagonal matrix pixels are in the range 0 - 1, with lower numbers indicating a closer match.
- */
-float PlaceRecognition::measurePerformance(cv::Mat& diagonalMatrix, int similarityWindow) const
-{
-	float correctCount = 0;
-	int querySize = diagonalMatrix.rows;
-	int referenceSize = diagonalMatrix.cols;
-
-	for (int i = 0; i < querySize; ++i) {
-		float bestScore = 1.0f;	// Theoretical max value for the diagonal matrix at 
-		int bestIndex = -1;
-
-		for (int j = 0; j < referenceSize; ++j) {
-			float score = diagonalMatrix.at<float>(i, j);
-			if (score < bestScore) {
-				bestScore = score;
-				bestIndex = j;
+			// Track the lowest scoring (most similar) image, and whether it counts as 'close' to the query image.
+			if (matchScore <= bestScore) {
+				bestScore = matchScore;
+				bestIsSimilar = similarityCriteria.isImageSimilar(queryImage, referenceImage);
 			}
 		}
 
-		if (std::abs(i - bestIndex) <= similarityWindow) {
-			correctCount++;
+		if (bestIsSimilar) {
+			similarMatchCount++;
 		}
 	}
 
-	return correctCount / querySize;
+	return similarMatchCount / query.count();
+}
+
+float PlaceRecognition::generateDiagonalMatrix(
+	const ImageDatasetInterface& reference,
+	const ImageDatasetInterface& query,
+	const SimilarityCriteria& similarityCriteria,
+	cv::Mat& output) const
+{
+	return this->generateDiagonalMatrix(reference, query, NullSalienceMask(), similarityCriteria, output);
+}
+
+/**
+ * Calculate the percentage of best matching reference images that fall within a particualar distance
+ * of the query image. Use the diagonal matrix to avoid recalculating the image difference,
+ * but it sill requires the datasets because we need the ground truth for each image.
+ */
+float PlaceRecognition::recalculatePerformance(const ImageDatasetInterface& reference, const ImageDatasetInterface& query, const cv::Mat& diagonalMatrix, const SimilarityCriteria& similarityCriteria) const
+{
+	float similarMatchCount = 0.0f;
+
+	for (int i = 0; i < query.count(); ++i) {
+		// Load the query image
+		DatasetImage queryImage = query.get(i);
+		if (&queryImage == NULL) {
+			continue;
+		}
+
+		float bestScore = 1.0f;	// Theoretical max value for the diagonal matrix at 
+		bool bestIsSimilar = false;
+
+		for (int j = 0; j < reference.count(); ++j) {
+			// Load the reference image
+			DatasetImage referenceImage = reference.get(j);
+			if (&referenceImage == NULL) {
+				continue;
+			}
+
+			float score = diagonalMatrix.at<float>(i, j);
+			if (score < bestScore) {
+				bestScore = score;
+				bestIsSimilar = similarityCriteria.isImageSimilar(queryImage, referenceImage);
+			}
+		}
+
+		if (bestIsSimilar) {
+			similarMatchCount++;
+		}
+	}
+
+	return similarMatchCount / query.count();
 }

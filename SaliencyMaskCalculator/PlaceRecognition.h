@@ -15,6 +15,7 @@
 #include "ImageDatasetInterface.h"
 #include "SalienceMaskInterface.h"
 #include "DatasetImage.h"
+#include "SimilarityCriteria.h"
 
 class PlaceRecognition
 {
@@ -22,18 +23,24 @@ public:
 	PlaceRecognition();
 	~PlaceRecognition();
 
-	virtual void generateDiagonalMatrix(
+	virtual float generateDiagonalMatrix(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
+		const SimilarityCriteria& similarityCriteria,
 		cv::Mat& output) const;
 
-	virtual void generateDiagonalMatrix(
+	virtual float generateDiagonalMatrix(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
-		SalienceMaskInterface& salienceMask,
+		const SalienceMaskInterface& salienceMask,
+		const SimilarityCriteria& similarityCriteria,
 		cv::Mat& output) const;
 
-	virtual float measurePerformance(cv::Mat& diagonalMatrix, int similarityWindow = 1) const;
+	virtual float recalculatePerformance(
+		const ImageDatasetInterface& reference,
+		const ImageDatasetInterface& query,
+		const cv::Mat& diagonalMatrix,
+		const SimilarityCriteria& similarityCriteria) const;
 };
 
 #endif /* PLACERECOGNITION_H_ */
