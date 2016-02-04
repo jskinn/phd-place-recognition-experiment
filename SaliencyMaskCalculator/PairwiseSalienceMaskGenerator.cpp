@@ -8,6 +8,8 @@
 #include "stdafx.h"
 #include "PairwiseSalienceMaskGenerator.h"
 
+#include <opencv2/highgui/highgui.hpp>	// Debug
+
 PairwiseSalienceMaskGenerator::PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria) :
 	criteria(similarityCriteria)
 {
@@ -72,6 +74,14 @@ void PairwiseSalienceMaskGenerator::generateSalienceMask(
 	// Take the average matching difference and the average different difference
 	avgSame /= (float)sameCount;
 	avgDifferent /= (float)differentCount;
+
+	// Debug, show the average differences.
+	cv::Mat outputImage;
+	avgSame.convertTo(outputImage, CV_8UC1, 255.0);
+	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference matching.png", outputImage);
+
+	avgDifferent.convertTo(outputImage, CV_8UC1, 255.0);
+	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference non-matching.png", outputImage);
 
 	// Use the differences between the matching and non-matching as the saliency mask
 	cv::absdiff(avgSame, avgDifferent, outputMask);

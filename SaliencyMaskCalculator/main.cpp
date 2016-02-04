@@ -17,6 +17,7 @@
 #include "DownsampleFilter.h"
 #include "GreyscaleFilter.h"
 #include "LinearTraverseLoader.h"
+#include "VPRiCELoader.h"
 #include "CachedDataset.h"
 #include "PlaceRecognition.h"
 #include "AverageDifferenceMaskGenerator.h"
@@ -71,10 +72,31 @@ CachedDataset* buildQueryDataset(const std::list<ImageFilterInterface*>& filters
 	return new CachedDataset(loaders);
 }
 
+CachedDataset* buildReferenceRealWorldDataset(const std::list<ImageFilterInterface*>& filters)
+{
+	std::list<ImageLoaderInterface*> loaders;
+
+	VPRiCELoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\VPRiCE-dataset\\live\\", 10, 0, 2, filters);
+	loaders.push_back(&imageLoader1);
+
+	return new CachedDataset(loaders);
+}
+
+CachedDataset* buildQueryRealWorldDataset(const std::list<ImageFilterInterface*>& filters)
+{
+	std::list<ImageLoaderInterface*> loaders;
+
+	//VPRiCELoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\VPRiCE-dataset\\memory\\", 100, 0, 1, filters);
+	VPRiCELoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\VPRiCE-dataset\\live\\", 10, 1, 2, filters);
+	loaders.push_back(&imageLoader1);
+
+	return new CachedDataset(loaders);
+}
+
 /**
  * Run the experiment, calculating the vanilla performance, salience mask and masked performance.
  */
-void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& query)
+void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& query, ImageDatasetInterface& rwReference, ImageDatasetInterface& rwQuery)
 {
 	// Set some standard criteria for considering two images to have a 'similar' location
 	SimilarityCriteria similarityCriteria(300.0);
@@ -134,25 +156,33 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.
 	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 
+	std::cout << "Testing on real world data..." << std::endl;
+	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
+	performaceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, rwSimilarityCriteria, diagonalMatrix);
+	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, ThresholdSalienceMask(salienceMaskImage, 0.5), rwSimilarityCriteria, diagonalMatrix);
+	std::cout << "Real-world matching without mask " << performaceWithoutMask << " and with mask " << performanceWithMask << std::endl;
+
 	std::system("pause");
 }
 
 // Main, do all the things.
 int main(int argc, char* argv[]) {
 	// Set up the image filters
-	DownsampleFilter dsf(64, 64);
+	DownsampleFilter dsf(128, 72);	// Maintain 16:9 image ratio so we can compare images.
 	GreyscaleFilter gf;
 	std::list<ImageFilterInterface*> filters;
 	filters.push_back(&dsf);
 	filters.push_back(&gf);
 
-	// Set up the image datasets
+	// Set up the training image datasets
 	CachedDataset* reference = buildReferenceDataset(filters);
 	CachedDataset* query = buildQueryDataset(filters);
+	CachedDataset* rwReference = buildReferenceRealWorldDataset(filters);
+	CachedDataset* rwQuery = buildQueryRealWorldDataset(filters);
 	std::cout << "Datasets loaded" << std::endl;
 
 	// Run the experiment
-	runExperiment(*reference, *query);
+	runExperiment(*reference, *query, *rwReference, *rwQuery);
 	
 	// Clean up
 	delete reference;
