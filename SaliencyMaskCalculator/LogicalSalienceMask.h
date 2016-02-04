@@ -9,16 +9,15 @@
 #define LOGICALSALIENCEMASK_H_
 
 #include <opencv2/core/core.hpp>
-#include "SalienceMaskInterface.h"
+#include "ImageMatcherInterface.h"
 
-class LogicalSalienceMask : public SalienceMaskInterface
+class LogicalSalienceMask : public ImageMatcherInterface
 {
 public:
 	LogicalSalienceMask(cv::Mat averageSame, cv::Mat averageDifferent);
 	~LogicalSalienceMask();
 
-	virtual int getNumberOfRemovedPixels() const;
-	virtual void applyMask(cv::Mat& image) const;
+	virtual float matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const;
 };
 
 #endif /* LOGICALSALIENCEMASK_H_ */

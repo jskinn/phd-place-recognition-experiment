@@ -170,18 +170,15 @@
     <ClInclude Include="ImageMatcherInterface.h" />
     <ClInclude Include="LinearTraverseLoader.h" />
     <ClInclude Include="LogicalSalienceMask.h" />
-    <ClInclude Include="NullSalienceMask.h" />
     <ClInclude Include="PairwiseSalienceMaskGenerator.h" />
     <ClInclude Include="PlaceRecognition.h" />
     <ClInclude Include="SalienceMaskGeneratorInterface.h" />
-    <ClInclude Include="SalienceMaskInterface.h" />
     <ClInclude Include="SimilarityCriteria.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SumOfAbsoluteDifferencesMatcher.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ThresholdSalienceMask.h" />
     <ClInclude Include="VPRiCELoader.h" />
-    <ClInclude Include="WeightingSalienceMask.h" />
     <ClInclude Include="WeightingSalienceMaskGenerator.h" />
   </ItemGroup>
   <ItemGroup>
@@ -198,12 +195,10 @@
     <ClCompile Include="ImageMatcherInterface.cpp" />
     <ClCompile Include="LinearTraverseLoader.cpp" />
     <ClCompile Include="LogicalSalienceMask.cpp" />
-    <ClCompile Include="NullSalienceMask.cpp" />
     <ClCompile Include="PairwiseSalienceMaskGenerator.cpp" />
     <ClCompile Include="PlaceRecognition.cpp" />
     <ClCompile Include="SalienceMaskGeneratorInterface.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SalienceMaskInterface.cpp" />
     <ClCompile Include="SimilarityCriteria.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -214,7 +209,6 @@
     <ClCompile Include="SumOfAbsoluteDifferencesMatcher.cpp" />
     <ClCompile Include="ThresholdSalienceMask.cpp" />
     <ClCompile Include="VPRiCELoader.cpp" />
-    <ClCompile Include="WeightingSalienceMask.cpp" />
     <ClCompile Include="WeightingSalienceMaskGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

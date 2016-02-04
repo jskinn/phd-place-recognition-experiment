@@ -34,12 +34,6 @@
     <Filter Include="Salience Mask">
       <UniqueIdentifier>{c22413f5-2b80-4832-b34d-357b0b940376}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Salience Mask\Source Files">
-      <UniqueIdentifier>{1fd3e280-1104-4853-aa8a-138914d3fea0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Salience Mask\Header Files">
-      <UniqueIdentifier>{4b0691bd-0f92-462c-b299-5d146768cb17}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Place Recognition">
       <UniqueIdentifier>{f3282e92-2781-4917-8a89-72c933e6cf41}</UniqueIdentifier>
     </Filter>
@@ -66,6 +60,24 @@
     </Filter>
     <Filter Include="Ground Truth\Source Files">
       <UniqueIdentifier>{87cef0b2-6c1f-4928-8c66-2aae58996bac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Generators">
+      <UniqueIdentifier>{3bd4c468-e399-408c-b5c5-a415b6b5b682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Generators\Header Files">
+      <UniqueIdentifier>{82bc939f-5262-4789-bced-d57fa950fea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Generators\Source Files">
+      <UniqueIdentifier>{8c5ece99-d34b-44d2-8754-70444c03d110}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Masks">
+      <UniqueIdentifier>{27e9a0af-dd42-4c4a-b8d1-c5746a79a300}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Masks\Header Files">
+      <UniqueIdentifier>{4b0691bd-0f92-462c-b299-5d146768cb17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Salience Mask\Masks\Source Files">
+      <UniqueIdentifier>{1fd3e280-1104-4853-aa8a-138914d3fea0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,29 +108,11 @@
     <ClInclude Include="ImageDatasetInterface.h">
       <Filter>Dataset\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SalienceMaskGeneratorInterface.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AverageDifferenceMaskGenerator.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlaceRecognition.h">
       <Filter>Place Recognition\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SalienceMaskInterface.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ThresholdSalienceMask.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NullSalienceMask.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PairwiseSalienceMaskGenerator.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WeightingSalienceMask.h">
-      <Filter>Salience Mask\Header Files</Filter>
+      <Filter>Salience Mask\Masks\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CompositeDataset.h">
       <Filter>Dataset\Header Files</Filter>
@@ -138,17 +132,26 @@
     <ClInclude Include="VPRiCELoader.h">
       <Filter>Dataset\Loader\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WeightingSalienceMaskGenerator.h">
-      <Filter>Salience Mask\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LogicalSalienceMask.h">
-      <Filter>Salience Mask\Header Files</Filter>
+      <Filter>Salience Mask\Masks\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImageMatcherInterface.h">
       <Filter>Place Recognition\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SumOfAbsoluteDifferencesMatcher.h">
       <Filter>Place Recognition\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AverageDifferenceMaskGenerator.h">
+      <Filter>Salience Mask\Generators\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PairwiseSalienceMaskGenerator.h">
+      <Filter>Salience Mask\Generators\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SalienceMaskGeneratorInterface.h">
+      <Filter>Salience Mask\Generators\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WeightingSalienceMaskGenerator.h">
+      <Filter>Salience Mask\Generators\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,29 +179,11 @@
     <ClCompile Include="ImageDataset.cpp">
       <Filter>Dataset\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SalienceMaskGeneratorInterface.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AverageDifferenceMaskGenerator.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlaceRecognition.cpp">
       <Filter>Place Recognition\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SalienceMaskInterface.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ThresholdSalienceMask.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NullSalienceMask.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PairwiseSalienceMaskGenerator.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WeightingSalienceMask.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
+      <Filter>Salience Mask\Masks\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CompositeDataset.cpp">
       <Filter>Dataset\Source Files</Filter>
@@ -218,17 +203,26 @@
     <ClCompile Include="VPRiCELoader.cpp">
       <Filter>Dataset\Loader\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WeightingSalienceMaskGenerator.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LogicalSalienceMask.cpp">
-      <Filter>Salience Mask\Source Files</Filter>
+      <Filter>Salience Mask\Masks\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ImageMatcherInterface.cpp">
       <Filter>Place Recognition\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SumOfAbsoluteDifferencesMatcher.cpp">
       <Filter>Place Recognition\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AverageDifferenceMaskGenerator.cpp">
+      <Filter>Salience Mask\Generators\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PairwiseSalienceMaskGenerator.cpp">
+      <Filter>Salience Mask\Generators\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SalienceMaskGeneratorInterface.cpp">
+      <Filter>Salience Mask\Generators\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeightingSalienceMaskGenerator.cpp">
+      <Filter>Salience Mask\Generators\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

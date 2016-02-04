@@ -8,20 +8,16 @@
 #ifndef THRESHOLDSALIENCEMASK_H_
 #define THRESHOLDSALIENCEMASK_H_
 
-#include "SalienceMaskInterface.h"
 #include "ImageMatcherInterface.h"
 
 /**
  * A salience mask that includes only the pixels within the top percentage of salience.
  */
-class ThresholdSalienceMask : public SalienceMaskInterface, public ImageMatcherInterface
+class ThresholdSalienceMask : public ImageMatcherInterface
 {
 public:
 	ThresholdSalienceMask(cv::Mat& maskImage, float thresholdFraction);
 	virtual ~ThresholdSalienceMask();
-
-	virtual int getNumberOfRemovedPixels() const;
-	virtual void applyMask(cv::Mat& image) const;
 
 	virtual float matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const;
 

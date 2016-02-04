@@ -31,16 +31,6 @@ ThresholdSalienceMask::~ThresholdSalienceMask()
 {
 }
 
-int ThresholdSalienceMask::getNumberOfRemovedPixels() const
-{
-	return this->removedPixelCount;
-}
-
-void ThresholdSalienceMask::applyMask(cv::Mat& image) const
-{
-	image = image.mul(this->mask);
-}
-
 float ThresholdSalienceMask::matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const
 {
 	cv::Mat diffImage;

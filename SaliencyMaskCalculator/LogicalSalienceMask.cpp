@@ -8,7 +8,6 @@
 #include "stdafx.h"
 #include "LogicalSalienceMask.h"
 
-
 LogicalSalienceMask::LogicalSalienceMask(cv::Mat averageSame, cv::Mat averageDifferent)
 {
 }
@@ -18,13 +17,8 @@ LogicalSalienceMask::~LogicalSalienceMask()
 {
 }
 
-int LogicalSalienceMask::getNumberOfRemovedPixels() const
+float LogicalSalienceMask::matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const
 {
-	// TODO: this will need to change to something more general purpose, possibly as part of the whole workflow around scoring image pairs changing.
-	return 0;
-}
-
-void LogicalSalienceMask::applyMask(cv::Mat& image) const
-{
-
+	//TODO: Null implementation
+	return 0.0;
 }
