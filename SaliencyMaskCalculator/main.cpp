@@ -20,6 +20,7 @@
 #include "VPRiCELoader.h"
 #include "CachedDataset.h"
 #include "PlaceRecognition.h"
+#include "SumOfAbsoluteDifferencesMatcher.h"
 #include "AverageDifferenceMaskGenerator.h"
 #include "PairwiseSalienceMaskGenerator.h"
 #include "ThresholdSalienceMask.h"
@@ -104,63 +105,32 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
 	PairwiseSalienceMaskGenerator maskGen(similarityCriteria);
+	SumOfAbsoluteDifferencesMatcher sadMatcher;
 	cv::Mat diagonalMatrix;
 	SalienceMaskInterface* salienceMask;
 
 	// generate an initial diagonal matrix without a salience mask
-	float performaceWithoutMask = placerecog.generateDiagonalMatrix(reference, query, similarityCriteria, diagonalMatrix);
+	float performaceWithoutMask = placerecog.generateDiagonalMatrix(reference, query, sadMatcher, similarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix no mask.png", diagonalMatrix);
 	std::cout << "Created base diagonal matrix" << std::endl;
-
-	// Print the matching accuracy without the salience mask
-	//float performanceWithoutMask = placerecog.measurePerformance(diagonalMatrix, 1);
-	/*std::cout << "Matching accuracy without salience mask: (" <<
-		placerecog.measurePerformance(diagonalMatrix, 0) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 1) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 3) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 5) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 7) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 9) << ")" << std::endl;*/
 	std::cout << "Matching accuracy without salience mask: " << (performaceWithoutMask * 100) << "%" << std::endl;
-
-	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
-	cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.
-	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 
 	// Generate a salience mask
 	salienceMask = maskGen.generateSalienceMask(reference, query);
 	//writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\salience mask.png", salienceMaskImage);
 	std::cout << "Generated salience mask" << std::endl;
 
-	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
-	cv::imshow("Display window", salienceMaskImage);           // Show our image inside it.
-	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
-
 	// Generate a final diagonal matrix using the salience mask.
-	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);
+	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, sadMatcher, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
-
-	// Print the accuracy percentage for the final diagonal matrix
-	//float performanceWithMask = placerecog.measurePerformance(diagonalMatrix, 1);
-	/*std::cout << "Matching accuracy with salience mask: (" <<
-		placerecog.measurePerformance(diagonalMatrix, 0) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 1) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 3) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 5) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 7) << ", " <<
-		placerecog.measurePerformance(diagonalMatrix, 9) << ")" << std::endl;*/
 	std::cout << "Matching accuracy with salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
 
-	// Show the final diagonal matrix
-	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
-	cv::imshow("Display window", diagonalMatrix);           // Show our image inside it.
-	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
-
+	// Test on real-world data
 	std::cout << "Testing on real world data..." << std::endl;
 	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
-	performaceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, rwSimilarityCriteria, diagonalMatrix);
-	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, *salienceMask, rwSimilarityCriteria, diagonalMatrix);
+	performaceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);
+	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
 	std::cout << "Real-world matching without mask " << performaceWithoutMask << " and with mask " << performanceWithMask << std::endl;
 
 	std::system("pause");

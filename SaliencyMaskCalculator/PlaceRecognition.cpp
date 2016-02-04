@@ -7,10 +7,8 @@
 
 #include "stdafx.h"
 #include <algorithm>
-#include <assert.h>
 #include <opencv2/highgui/highgui.hpp>
 #include "DatasetImage.h"
-#include "NullSalienceMask.h"
 #include "PlaceRecognition.h"
 
 PlaceRecognition::PlaceRecognition()
@@ -30,7 +28,7 @@ PlaceRecognition::~PlaceRecognition()
 float PlaceRecognition::generateDiagonalMatrix(
 	const ImageDatasetInterface& reference,
 	const ImageDatasetInterface& query,
-	const SalienceMaskInterface& salienceMask,
+	const ImageMatcherInterface& imageMatcher,
 	const SimilarityCriteria& similarityCriteria,
 	cv::Mat& output) const
 {
@@ -54,21 +52,9 @@ float PlaceRecognition::generateDiagonalMatrix(
 				continue;
 			}
 
-			// Take the absolute difference between the reference and query images.
-			cv::Mat diffImage;
-			cv::absdiff(referenceImage.getImage(), queryImage.getImage(), diffImage);
-			diffImage.convertTo(diffImage, CV_32FC1, 1 / 255.0);
-
-			// Mask the image throug the salience mask
-			salienceMask.applyMask(diffImage);
-
 			// Compute the similarity score based on the sum of absolute differences between the images.
-			cv::Scalar sum = cv::sum(diffImage);
-			int numPixels = (diffImage.rows * diffImage.cols) - salienceMask.getNumberOfRemovedPixels();
-			float matchScore = (float)sum[0] / numPixels;
-			assert(matchScore >= 0.0f);
-			assert(matchScore <= 1.0f);
-			output.at<float>(i,j) = matchScore;
+			float matchScore = imageMatcher.matchImages(referenceImage.getImage(), queryImage.getImage());
+			output.at<float>(i, j) = matchScore;
 
 			// Track the lowest scoring (most similar) image, and whether it counts as 'close' to the query image.
 			if (matchScore <= bestScore) {
@@ -83,15 +69,6 @@ float PlaceRecognition::generateDiagonalMatrix(
 	}
 
 	return similarMatchCount / query.count();
-}
-
-float PlaceRecognition::generateDiagonalMatrix(
-	const ImageDatasetInterface& reference,
-	const ImageDatasetInterface& query,
-	const SimilarityCriteria& similarityCriteria,
-	cv::Mat& output) const
-{
-	return this->generateDiagonalMatrix(reference, query, NullSalienceMask(), similarityCriteria, output);
 }
 
 /**

@@ -13,7 +13,7 @@
 #include <opencv2/core/core.hpp>
 #include "ImageFilterInterface.h"
 #include "ImageDatasetInterface.h"
-#include "SalienceMaskInterface.h"
+#include "ImageMatcherInterface.h"
 #include "DatasetImage.h"
 #include "SimilarityCriteria.h"
 
@@ -26,13 +26,7 @@ public:
 	virtual float generateDiagonalMatrix(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query,
-		const SimilarityCriteria& similarityCriteria,
-		cv::Mat& output) const;
-
-	virtual float generateDiagonalMatrix(
-		const ImageDatasetInterface& reference,
-		const ImageDatasetInterface& query,
-		const SalienceMaskInterface& salienceMask,
+		const ImageMatcherInterface& imageMatcher,
 		const SimilarityCriteria& similarityCriteria,
 		cv::Mat& output) const;
 
