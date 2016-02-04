@@ -136,7 +136,7 @@
       <Filter>Ground Truth\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VPRiCELoader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Dataset\Loader\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +204,7 @@
       <Filter>Ground Truth\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VPRiCELoader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Dataset\Loader\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
