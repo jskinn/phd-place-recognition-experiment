@@ -42,5 +42,5 @@ float ThresholdSalienceMask::matchImages(const cv::Mat& imageA, const cv::Mat& i
 
 	// Compute the similarity score based on the sum of absolute differences between the images.
 	cv::Scalar sum = cv::sum(diffImage);
-	return (float)sum[0] / (diffImage.rows * diffImage.cols);
+	return (float)sum[0] / cv::countNonZero(this->mask);
 }
