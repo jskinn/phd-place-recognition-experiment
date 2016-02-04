@@ -20,6 +20,7 @@
 #include "VPRiCELoader.h"
 #include "CachedDataset.h"
 #include "PlaceRecognition.h"
+#include "ImageMatcherInterface.h"
 #include "SumOfAbsoluteDifferencesMatcher.h"
 #include "AverageDifferenceMaskGenerator.h"
 #include "PairwiseSalienceMaskGenerator.h"
@@ -107,7 +108,7 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	PairwiseSalienceMaskGenerator maskGen(similarityCriteria);
 	SumOfAbsoluteDifferencesMatcher sadMatcher;
 	cv::Mat diagonalMatrix;
-	SalienceMaskInterface* salienceMask;
+	ImageMatcherInterface* salienceMask;
 
 	// generate an initial diagonal matrix without a salience mask
 	float performaceWithoutMask = placerecog.generateDiagonalMatrix(reference, query, sadMatcher, similarityCriteria, diagonalMatrix);
@@ -121,7 +122,7 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Generated salience mask" << std::endl;
 
 	// Generate a final diagonal matrix using the salience mask.
-	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, sadMatcher, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
+	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
 	std::cout << "Matching accuracy with salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
@@ -130,7 +131,7 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Testing on real world data..." << std::endl;
 	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
 	performaceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);
-	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
+	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, *salienceMask, rwSimilarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
 	std::cout << "Real-world matching without mask " << performaceWithoutMask << " and with mask " << performanceWithMask << std::endl;
 
 	std::system("pause");

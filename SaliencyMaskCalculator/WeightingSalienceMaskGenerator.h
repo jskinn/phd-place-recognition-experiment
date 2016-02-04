@@ -17,7 +17,7 @@ public:
 	WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria);
 	~WeightingSalienceMaskGenerator();
 
-	virtual SalienceMaskInterface* generateSalienceMask(
+	virtual ImageMatcherInterface* generateSalienceMask(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query) const;
 

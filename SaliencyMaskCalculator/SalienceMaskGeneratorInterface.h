@@ -13,7 +13,7 @@
 #include <opencv2/core/core.hpp>
 #include "ImageFilterInterface.h"
 #include "ImageDatasetInterface.h"
-#include "SalienceMaskInterface.h"
+#include "ImageMatcherInterface.h"
 
 class SalienceMaskGeneratorInterface
 {
@@ -24,7 +24,7 @@ public:
 	 * Generate a salience mask.
 	 * For 
 	 */
-	virtual SalienceMaskInterface* generateSalienceMask(
+	virtual ImageMatcherInterface* generateSalienceMask(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query) const = 0;
 };

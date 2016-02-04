@@ -17,7 +17,7 @@ public:
 	PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria);
 	~PairwiseSalienceMaskGenerator();
 
-	virtual SalienceMaskInterface* generateSalienceMask(
+	virtual ImageMatcherInterface* generateSalienceMask(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query) const;
 

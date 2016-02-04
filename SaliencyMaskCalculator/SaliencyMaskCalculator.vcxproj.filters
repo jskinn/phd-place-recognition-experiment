@@ -148,7 +148,7 @@
       <Filter>Place Recognition\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SumOfAbsoluteDifferencesMatcher.h">
-      <Filter>Header Files</Filter>
+      <Filter>Place Recognition\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +228,7 @@
       <Filter>Place Recognition\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SumOfAbsoluteDifferencesMatcher.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Place Recognition\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

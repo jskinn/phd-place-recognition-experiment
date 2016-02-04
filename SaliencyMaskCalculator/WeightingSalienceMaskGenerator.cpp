@@ -24,7 +24,7 @@ WeightingSalienceMaskGenerator::~WeightingSalienceMaskGenerator()
 * Generate a salience mask, by comparing all query images to all reference images.
 * This one actually has a modcum of thought put into the mask it outputs.
 */
-SalienceMaskInterface* WeightingSalienceMaskGenerator::generateSalienceMask(
+ImageMatcherInterface* WeightingSalienceMaskGenerator::generateSalienceMask(
 	const ImageDatasetInterface& reference,
 	const ImageDatasetInterface& query) const
 {

@@ -23,7 +23,7 @@ AverageDifferenceMaskGenerator::~AverageDifferenceMaskGenerator()
 * TODO: This needs tweaking, it's assuming the indexes in the datasets match ground truth,
 * It's also generating a bad salience mask.
 */
-SalienceMaskInterface* AverageDifferenceMaskGenerator::generateSalienceMask(
+ImageMatcherInterface* AverageDifferenceMaskGenerator::generateSalienceMask(
 	const ImageDatasetInterface& reference,
 	const ImageDatasetInterface& query) const
 {

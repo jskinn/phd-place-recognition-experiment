@@ -40,3 +40,17 @@ void ThresholdSalienceMask::applyMask(cv::Mat& image) const
 {
 	image = image.mul(this->mask);
 }
+
+float ThresholdSalienceMask::matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const
+{
+	cv::Mat diffImage;
+	cv::absdiff(imageA, imageB, diffImage);
+	diffImage.convertTo(diffImage, CV_32FC1, 1 / 255.0);
+
+	// Apply the salience mask
+	diffImage = diffImage.mul(this->mask);
+
+	// Compute the similarity score based on the sum of absolute differences between the images.
+	cv::Scalar sum = cv::sum(diffImage);
+	return (float)sum[0] / (diffImage.rows * diffImage.cols);
+}
