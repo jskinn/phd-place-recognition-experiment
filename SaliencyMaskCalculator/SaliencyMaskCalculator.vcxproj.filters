@@ -138,6 +138,12 @@
     <ClInclude Include="VPRiCELoader.h">
       <Filter>Dataset\Loader\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WeightingSalienceMaskGenerator.h">
+      <Filter>Salience Mask\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicalSalienceMask.h">
+      <Filter>Salience Mask\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -205,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="VPRiCELoader.cpp">
       <Filter>Dataset\Loader\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeightingSalienceMaskGenerator.cpp">
+      <Filter>Salience Mask\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicalSalienceMask.cpp">
+      <Filter>Salience Mask\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

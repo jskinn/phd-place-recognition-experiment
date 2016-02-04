@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "DatasetImage.h"
 #include "AverageDifferenceMaskGenerator.h"
+#include "ThresholdSalienceMask.h"
 
 AverageDifferenceMaskGenerator::AverageDifferenceMaskGenerator()
 {
@@ -22,10 +23,9 @@ AverageDifferenceMaskGenerator::~AverageDifferenceMaskGenerator()
 * TODO: This needs tweaking, it's assuming the indexes in the datasets match ground truth,
 * It's also generating a bad salience mask.
 */
-void AverageDifferenceMaskGenerator::generateSalienceMask(
+SalienceMaskInterface* AverageDifferenceMaskGenerator::generateSalienceMask(
 	const ImageDatasetInterface& reference,
-	const ImageDatasetInterface& query,
-	cv::Mat& outputMask) const
+	const ImageDatasetInterface& query) const
 {
 	int datasetSize = std::min(reference.count(), query.count());
 	cv::Mat avgDiff;
@@ -51,5 +51,5 @@ void AverageDifferenceMaskGenerator::generateSalienceMask(
 		}
 	}
 	//TODO: This needs to be inverted somehow?
-	outputMask = avgDiff / datasetSize;
+	return new ThresholdSalienceMask(cv::Mat(avgDiff / datasetSize), 0.5);
 }

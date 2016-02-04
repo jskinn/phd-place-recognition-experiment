@@ -1,21 +1,21 @@
 /*
-* PairwiseSalienceMaskGenerator.h
+* WeightingSalienceMaskGenerator.h
 *
-*  Created on: 29 Jan 2016
+*  Created on: 4 Feb 2016
 *      Author: john
 */
 
-#ifndef PAIRWISESALIENCEMASKGENERATOR_H_
-#define PAIRWISESALIENCEMASKGENERATOR_H_
+#ifndef WEIGHTINGSALIENCEMASKGENERATOR_H_
+#define WEIGHTINGSALIENCEMASKGENERATOR_H_
 
 #include "SalienceMaskGeneratorInterface.h"
 #include "SimilarityCriteria.h"
 
-class PairwiseSalienceMaskGenerator : public SalienceMaskGeneratorInterface
+class WeightingSalienceMaskGenerator : public SalienceMaskGeneratorInterface
 {
 public:
-	PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria);
-	~PairwiseSalienceMaskGenerator();
+	WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria);
+	~WeightingSalienceMaskGenerator();
 
 	virtual SalienceMaskInterface* generateSalienceMask(
 		const ImageDatasetInterface& reference,

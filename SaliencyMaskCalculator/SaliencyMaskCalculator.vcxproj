@@ -168,6 +168,7 @@
     <ClInclude Include="ImageFilterInterface.h" />
     <ClInclude Include="ImageLoaderInterface.h" />
     <ClInclude Include="LinearTraverseLoader.h" />
+    <ClInclude Include="LogicalSalienceMask.h" />
     <ClInclude Include="NullSalienceMask.h" />
     <ClInclude Include="PairwiseSalienceMaskGenerator.h" />
     <ClInclude Include="PlaceRecognition.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="ThresholdSalienceMask.h" />
     <ClInclude Include="VPRiCELoader.h" />
     <ClInclude Include="WeightingSalienceMask.h" />
+    <ClInclude Include="WeightingSalienceMaskGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AverageDifferenceMaskGenerator.cpp" />
@@ -192,6 +194,7 @@
     <ClCompile Include="ImageFilterInterface.cpp" />
     <ClCompile Include="ImageLoaderInterface.cpp" />
     <ClCompile Include="LinearTraverseLoader.cpp" />
+    <ClCompile Include="LogicalSalienceMask.cpp" />
     <ClCompile Include="NullSalienceMask.cpp" />
     <ClCompile Include="PairwiseSalienceMaskGenerator.cpp" />
     <ClCompile Include="PlaceRecognition.cpp" />
@@ -208,6 +211,7 @@
     <ClCompile Include="ThresholdSalienceMask.cpp" />
     <ClCompile Include="VPRiCELoader.cpp" />
     <ClCompile Include="WeightingSalienceMask.cpp" />
+    <ClCompile Include="WeightingSalienceMaskGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

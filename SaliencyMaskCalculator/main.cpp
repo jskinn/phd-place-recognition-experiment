@@ -104,7 +104,8 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
 	PairwiseSalienceMaskGenerator maskGen(similarityCriteria);
-	cv::Mat diagonalMatrix, salienceMaskImage;
+	cv::Mat diagonalMatrix;
+	SalienceMaskInterface* salienceMask;
 
 	// generate an initial diagonal matrix without a salience mask
 	float performaceWithoutMask = placerecog.generateDiagonalMatrix(reference, query, similarityCriteria, diagonalMatrix);
@@ -127,8 +128,8 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 
 	// Generate a salience mask
-	maskGen.generateSalienceMask(reference, query, salienceMaskImage);
-	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\salience mask.png", salienceMaskImage);
+	salienceMask = maskGen.generateSalienceMask(reference, query);
+	//writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\salience mask.png", salienceMaskImage);
 	std::cout << "Generated salience mask" << std::endl;
 
 	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
@@ -136,7 +137,7 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	cv::waitKey(0);                                         // Wait for a keystroke in the window*/
 
 	// Generate a final diagonal matrix using the salience mask.
-	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, ThresholdSalienceMask(salienceMaskImage, 0.5), similarityCriteria, diagonalMatrix);
+	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
 
@@ -159,10 +160,13 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Testing on real world data..." << std::endl;
 	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
 	performaceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, rwSimilarityCriteria, diagonalMatrix);
-	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, ThresholdSalienceMask(salienceMaskImage, 0.5), rwSimilarityCriteria, diagonalMatrix);
+	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, *salienceMask, rwSimilarityCriteria, diagonalMatrix);
 	std::cout << "Real-world matching without mask " << performaceWithoutMask << " and with mask " << performanceWithMask << std::endl;
 
 	std::system("pause");
+
+	// Clean up
+	delete salienceMask;
 }
 
 // Main, do all the things.
@@ -187,6 +191,8 @@ int main(int argc, char* argv[]) {
 	// Clean up
 	delete reference;
 	delete query;
+	delete rwReference;
+	delete rwQuery;
 
 	return 0;
 }

@@ -17,10 +17,9 @@ public:
 	AverageDifferenceMaskGenerator();
 	virtual ~AverageDifferenceMaskGenerator();
 
-	virtual void generateSalienceMask(
+	virtual SalienceMaskInterface* generateSalienceMask(
 		const ImageDatasetInterface& reference,
-		const ImageDatasetInterface& query,
-		cv::Mat& outputMask) const;
+		const ImageDatasetInterface& query) const;
 };
 
 #endif /* AVERAGEDIFFERENCEMASKGENERATOR_H_ */
