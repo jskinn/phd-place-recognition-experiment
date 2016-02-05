@@ -145,7 +145,9 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Testing on real world data..." << std::endl;
 	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
 	performanceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);
+	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\real world diagonal matrix without mask.png", diagonalMatrix);
 	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, *salienceMask, rwSimilarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
+	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\real world diagonal matrix with logical mask.png", diagonalMatrix);
 	std::cout << "Real-world matching without mask " << (performanceWithoutMask * 100) << "% and with logical mask " << (performanceWithMask * 100) << "%" << std::endl;
 
 	std::system("pause");

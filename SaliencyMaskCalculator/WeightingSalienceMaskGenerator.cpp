@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "WeightingSalienceMaskGenerator.h"
 #include "LogicalSalienceMask.h"
+#include "SimpleComparisonMask.h"
 
 #include <opencv2/highgui/highgui.hpp>	// Debug
 
@@ -91,5 +92,5 @@ ImageMatcherInterface* WeightingSalienceMaskGenerator::generateSalienceMask(
 	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference non-matching.png", outputImage);
 
 	// Use the differences between the matching and non-matching as the saliency mask
-	return new LogicalSalienceMask(avgSame, avgDifferent, salienceFraction);
+	return new SimpleComparisonMask(avgSame, avgDifferent, salienceFraction);
 }
