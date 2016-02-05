@@ -14,7 +14,7 @@
 class WeightingSalienceMaskGenerator : public SalienceMaskGeneratorInterface
 {
 public:
-	WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria);
+	WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction);
 	~WeightingSalienceMaskGenerator();
 
 	virtual ImageMatcherInterface* generateSalienceMask(
@@ -23,6 +23,7 @@ public:
 
 private:
 	SimilarityCriteria criteria;
+	float salienceFraction;
 };
 
 #endif /* PAIRWISESALIENCEMASKGENERATOR_H_ */

@@ -5,18 +5,23 @@
 *      Author: john
 */
 
-#include <assert.h>
 #include "stdafx.h"
 #include "LogicalSalienceMask.h"
+#include <opencv2/highgui/highgui.hpp>
 
-const float LogicalSalienceMask::DIFFERENT_WEIGHTING = 1.0f;
-const float LogicalSalienceMask::SAME_WEIGHTING = 1.0f;
+const float LogicalSalienceMask::DIFFERENT_WEIGHTING = 0.5f;
+const float LogicalSalienceMask::SAME_WEIGHTING = 0.5f;
 
 LogicalSalienceMask::LogicalSalienceMask(cv::Mat averageSame, cv::Mat averageDifferent, float salientFraction) :
 	averageSame(averageSame),
 	averageDifferent(averageDifferent),
 	salientPixels(LogicalSalienceMask::findMostSalientPixels(averageSame, averageDifferent, salientFraction))
 {
+	cv::Mat mask = cv::Mat::zeros(averageSame.rows, averageSame.cols, CV_8UC1);
+	for (std::vector<cv::Point>::const_iterator iter = salientPixels.begin(); iter != salientPixels.end(); ++iter) {
+		mask.at<uchar>(*iter) = 255;
+	}
+	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\most salient pixels.png", mask);
 }
 
 
@@ -35,24 +40,6 @@ float LogicalSalienceMask::matchImages(const cv::Mat& imageA, const cv::Mat& ima
 	// Assume the diff image and average images are the same size :S. I can always call resize if this becomes a problem.
 	float score = 0.0f;
 	float relevantPixels = 0.0f;
-	/*for (int i = 0; i < diffImage.rows; ++i) {
-		for (int j = 0; j < diffImage.cols; ++j) {
-			float difference = diffImage.at<float>(i, j);
-			float differenceForSame = averageSame.at<float>(i, j);
-			float differenceForDifferent = averageDifferent.at<float>(i, j);
-
-			// TODO: Skip this pixel unless it's a 'relevant' pixel.
-
-			// Use a gaussian around the expected difference for matching or not.
-			// The gaussian for the differenceForDifferent increases the score if the actual difference is nearby,
-			// while the gaussian for the differenceForSame increases the score unless the actual difference is nearby.
-			// Expected score increase ranges 0-2, but is expected to be 1.
-			score += LogicalSalienceMask::DIFFERENT_WEIGHTING * std::exp(-10.0f * (difference - differenceForDifferent)) +
-				LogicalSalienceMask::SAME_WEIGHTING * (1 - std::exp(-10.0f * (difference - differenceForSame)));
-
-			++relevantPixels;
-		}
-	}*/
 
 	for (std::vector<cv::Point>::const_iterator iter = salientPixels.begin(); iter != salientPixels.end(); ++iter) {
 		float difference = diffImage.at<float>(*iter);
@@ -76,6 +63,7 @@ float LogicalSalienceMask::matchImages(const cv::Mat& imageA, const cv::Mat& ima
 	// Compute the final score, averaged over all the relevant pixels
 	assert(score < (LogicalSalienceMask::DIFFERENT_WEIGHTING + LogicalSalienceMask::SAME_WEIGHTING) * relevantPixels);
 	assert(score >= 0.0f);
+	assert(relevantPixels > 0);
 	return score / relevantPixels;
 }
 
@@ -122,6 +110,14 @@ std::vector<cv::Point> LogicalSalienceMask::findMostSalientPixels(const cv::Mat&
 				currentPoint = swapPoint;
 			}
 		}
+	}
+
+	// Check we did it right, that we have some number of salience points in descending order.
+	float runningSalience = salienceImage.at<float>(outputPoints[0]);
+	for (int i = 1; i < outputPoints.size(); ++i) {
+		float salience = salienceImage.at<float>(outputPoints[i]);
+		assert(salience < runningSalience);
+		runningSalience = salience;
 	}
 
 	return outputPoints;

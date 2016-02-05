@@ -6,8 +6,6 @@
 */
 
 #include "stdafx.h"
-#include <algorithm>
-#include <opencv2/highgui/highgui.hpp>
 #include "DatasetImage.h"
 #include "PlaceRecognition.h"
 
@@ -34,9 +32,14 @@ float PlaceRecognition::generateDiagonalMatrix(
 {
 	output = cv::Mat::zeros(reference.count(), query.count(), CV_32FC1);
 
+	// bail out early if there are no query images or no reference images, it saves us from a divide by zero later.
+	if (query.count() <= 0 || reference.count() <= 0) {
+		return 1.0f;
+	}
+
 	float similarMatchCount = 0.0f;
 	for (int i = 0; i < query.count(); ++i) {
-		float bestScore = 1.0f;
+		float bestScore = std::numeric_limits<float>::infinity();
 		bool bestIsSimilar = false;
 
 		// Load the query image
@@ -68,6 +71,7 @@ float PlaceRecognition::generateDiagonalMatrix(
 		}
 	}
 
+	assert(similarMatchCount < query.count());
 	return similarMatchCount / query.count();
 }
 
@@ -79,6 +83,11 @@ float PlaceRecognition::generateDiagonalMatrix(
 float PlaceRecognition::recalculatePerformance(const ImageDatasetInterface& reference, const ImageDatasetInterface& query, const cv::Mat& diagonalMatrix, const SimilarityCriteria& similarityCriteria) const
 {
 	float similarMatchCount = 0.0f;
+
+	// Exit early if there are no query images or no reference images, to save from a divide by 0.
+	if (query.count() <= 0 || reference.count() <= 0) {
+		return 1.0f;
+	}
 
 	for (int i = 0; i < query.count(); ++i) {
 		// Load the query image
