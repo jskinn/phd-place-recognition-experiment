@@ -24,7 +24,7 @@
 #include "SumOfAbsoluteDifferencesMatcher.h"
 #include "AverageDifferenceMaskGenerator.h"
 #include "PairwiseSalienceMaskGenerator.h"
-#include "ThresholdSalienceMask.h"
+#include "WeightingSalienceMaskGenerator.h"
 
 /**
  * A simple helper to write out float images from a range 0-1,
@@ -47,10 +47,10 @@ CachedDataset* buildReferenceDataset(const std::list<ImageFilterInterface*>& fil
 
 	//LinearTraverseLoader imageLoader(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
 	//LinearTraverseLoader imageLoader(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, -1166.6666666, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
-	LinearTraverseLoader imageLoader1(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	LinearTraverseLoader imageLoader1(cv::Vec3d(14200.0, -4000.0, 0.0), cv::Vec3d(14200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14200\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
 	loaders.push_back(&imageLoader1);
 
-	LinearTraverseLoader imageLoader2(cv::Vec3d(15200.0, -4000.0, 0.0), cv::Vec3d(15200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15200\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	LinearTraverseLoader imageLoader2(cv::Vec3d(15200.0, -4000.0, 0.0), cv::Vec3d(15200.0, 13000, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15200\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
 	loaders.push_back(&imageLoader2);
 
 	return new CachedDataset(loaders);
@@ -64,10 +64,10 @@ CachedDataset* buildQueryDataset(const std::list<ImageFilterInterface*>& filters
 	std::list<ImageLoaderInterface*> loaders;
 
 	//LinearTraverseLoader imageLoader(cv::Vec3d(14400.0, -4000.0, 0.0), cv::Vec3d(14400.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
-	LinearTraverseLoader imageLoader1(cv::Vec3d(14400.0, -4000.0, 0.0), cv::Vec3d(14400.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	LinearTraverseLoader imageLoader1(cv::Vec3d(14400.0, -4000.0, 0.0), cv::Vec3d(14400.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 14400\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
 	loaders.push_back(&imageLoader1);
 
-	LinearTraverseLoader imageLoader2(cv::Vec3d(15000.0, -4000.0, 0.0), cv::Vec3d(15000.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15000\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
+	LinearTraverseLoader imageLoader2(cv::Vec3d(15000.0, -4000.0, 0.0), cv::Vec3d(15000.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15000\\MovieCapture_640x360_1.00 ", ".png", 100, 2, 1, 10, filters);
 	loaders.push_back(&imageLoader2);
 
 	return new CachedDataset(loaders);
@@ -104,7 +104,8 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
-	PairwiseSalienceMaskGenerator maskGen(similarityCriteria);
+	WeightingSalienceMaskGenerator maskGen(similarityCriteria);
+	PairwiseSalienceMaskGenerator alternateMaskGen(similarityCriteria);
 	SumOfAbsoluteDifferencesMatcher sadMatcher;
 	cv::Mat diagonalMatrix;
 	ImageMatcherInterface* salienceMask;
@@ -122,16 +123,27 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 
 	// Generate a final diagonal matrix using the salience mask.
 	float performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
-	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with mask.png", diagonalMatrix);
+	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with logical mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
-	std::cout << "Matching accuracy with salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
+	std::cout << "Matching accuracy with logical salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
+
+	// Generate another salience mask
+	salienceMask = alternateMaskGen.generateSalienceMask(reference, query);
+	//writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\salience mask.png", salienceMaskImage);
+	std::cout << "Generated salience mask" << std::endl;
+
+	// Generate a final diagonal matrix using the salience mask.
+	performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
+	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with pairwise mask.png", diagonalMatrix);
+	std::cout << "Generated masked diagonal matrix" << std::endl;
+	std::cout << "Matching accuracy with threshold salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
 
 	// Test on real-world data
 	std::cout << "Testing on real world data..." << std::endl;
 	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
 	performaceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);
 	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, *salienceMask, rwSimilarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
-	std::cout << "Real-world matching without mask " << performaceWithoutMask << " and with mask " << performanceWithMask << std::endl;
+	std::cout << "Real-world matching without mask " << (performaceWithoutMask * 100) << "% and with mask " << (performanceWithMask * 100) << "%" << std::endl;
 
 	std::system("pause");
 

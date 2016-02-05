@@ -21,7 +21,7 @@ ThresholdSalienceMask::ThresholdSalienceMask(cv::Mat& maskImage, float threshold
 
 	cv::Mat outputImage;
 	this->mask.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\effective mask.png", outputImage);
+	//cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\effective mask.png", outputImage);
 	/*cv::namedWindow("Display window", cv::WINDOW_AUTOSIZE); // Create a window for display.
 	cv::imshow("Display window", this->mask);               // Show our image inside it.
 	cv::waitKey(0);                                         // Wait for a keystroke in the window*/

@@ -76,12 +76,12 @@ ImageMatcherInterface* PairwiseSalienceMaskGenerator::generateSalienceMask(
 	avgDifferent /= (float)differentCount;
 
 	// Debug, show the average differences.
-	cv::Mat outputImage;
+	/*cv::Mat outputImage;
 	avgSame.convertTo(outputImage, CV_8UC1, 255.0);
 	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference matching.png", outputImage);
 
 	avgDifferent.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference non-matching.png", outputImage);
+	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference non-matching.png", outputImage);*/
 
 	// Use the differences between the matching and non-matching as the saliency mask
 	cv::Mat outputMask;
