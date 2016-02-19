@@ -156,6 +156,9 @@
     <ClInclude Include="SimpleComparisonMask.h">
       <Filter>Salience Mask\Masks\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageWithGroundTruthLoader.h">
+      <Filter>Dataset\Loader\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="SimpleComparisonMask.cpp">
       <Filter>Salience Mask\Masks\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageWithGroundTruthLoader.cpp">
+      <Filter>Dataset\Loader\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

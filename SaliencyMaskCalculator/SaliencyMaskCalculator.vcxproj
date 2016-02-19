@@ -110,7 +110,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\lib\eigen;C:\lib\opencv\build\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\lib\eigen;C:\lib\opencv\build\include;C:\lib\rapidjson\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,6 +168,7 @@
     <ClInclude Include="ImageFilterInterface.h" />
     <ClInclude Include="ImageLoaderInterface.h" />
     <ClInclude Include="ImageMatcherInterface.h" />
+    <ClInclude Include="ImageWithGroundTruthLoader.h" />
     <ClInclude Include="LinearTraverseLoader.h" />
     <ClInclude Include="LogicalSalienceMask.h" />
     <ClInclude Include="PairwiseSalienceMaskGenerator.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="ImageFilterInterface.cpp" />
     <ClCompile Include="ImageLoaderInterface.cpp" />
     <ClCompile Include="ImageMatcherInterface.cpp" />
+    <ClCompile Include="ImageWithGroundTruthLoader.cpp" />
     <ClCompile Include="LinearTraverseLoader.cpp" />
     <ClCompile Include="LogicalSalienceMask.cpp" />
     <ClCompile Include="PairwiseSalienceMaskGenerator.cpp" />

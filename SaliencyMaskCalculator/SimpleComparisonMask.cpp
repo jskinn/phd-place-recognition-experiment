@@ -83,9 +83,9 @@ cv::Mat SimpleComparisonMask::findMostSalientPixels(const cv::Mat& averageSame, 
 			cv::Point currentPoint(j, i);	// Point constructor is (columns, rows)
 			float currentSalience = salienceImage.at<float>(currentPoint);	// Make sure the point and salience match, to avoid index order confusion.
 
-																			// Start at the end of the list and work forward to find the lowest index where the score is less than
-																			// the score for the current pixel.
-																			// Note that if the pixel is 
+			// Start at the end of the list and work forward to find the lowest index where the score is less than
+			// the score for the current pixel.
+			// Note that if the pixel is 
 			while (index > 0 && salientPixelScore[index - 1] < currentSalience) {
 				--index;
 			}
@@ -113,7 +113,7 @@ cv::Mat SimpleComparisonMask::findMostSalientPixels(const cv::Mat& averageSame, 
 		// Check the salience of the chosen points.
 		float salience = salienceImage.at<float>(chosenPoints[i]);
 		if (i > 0) {
-			assert(salience < runningSalience);
+			assert(salience <= runningSalience);
 		}
 		runningSalience = salience;
 	}

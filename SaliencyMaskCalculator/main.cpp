@@ -17,6 +17,7 @@
 #include "DownsampleFilter.h"
 #include "GreyscaleFilter.h"
 #include "LinearTraverseLoader.h"
+#include "ImageWithGroundTruthLoader.h"
 #include "VPRiCELoader.h"
 #include "CachedDataset.h"
 #include "PlaceRecognition.h"
@@ -69,6 +70,36 @@ CachedDataset* buildQueryDataset(const std::list<ImageFilterInterface*>& filters
 
 	LinearTraverseLoader imageLoader2(cv::Vec3d(15000.0, -4000.0, 0.0), cv::Vec3d(15000.0, 13000.0, 0.0), cv::Vec3d(0.0, 0.0, 90.0), "C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\x 15000\\MovieCapture_640x360_1.00 ", ".png", 600, 2, 1, 10, filters);
 	loaders.push_back(&imageLoader2);
+
+	return new CachedDataset(loaders);
+}
+
+/**
+* Construct the reference dataset.
+* Can load images from a number of locations.
+*/
+CachedDataset* loadAlternativeReferenceDataset(std::list<ImageFilterInterface*>& filters)
+{
+	std::list<ImageLoaderInterface*> loaders;
+
+	// Actual count is 13474
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\LeftAndRightVariableOrientationDataset\\Image_", ".png", 10, 0, 1, 0, filters);
+	loaders.push_back(&imageLoader1);
+
+	return new CachedDataset(loaders);
+}
+
+/**
+* Construct the reference dataset.
+* Can load images from a number of locations.
+*/
+CachedDataset* loadAlternativeQueryDataset(std::list<ImageFilterInterface*>& filters)
+{
+	std::list<ImageLoaderInterface*> loaders;
+
+	// Actual count is 611
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadDataset\\Image_", ".png", 10, 0, 1, 0, filters);
+	loaders.push_back(&imageLoader1);
 
 	return new CachedDataset(loaders);
 }
@@ -142,13 +173,13 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Matching accuracy with threshold salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
 
 	// Test on real-world data
-	std::cout << "Testing on real world data..." << std::endl;
+	/*std::cout << "Testing on real world data..." << std::endl;
 	SimilarityCriteria rwSimilarityCriteria(0.1);	// Tiny radius since adjacent images don't help. There are multiple merged datasets, and I haven't worked out how to separated them.
 	performanceWithoutMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, sadMatcher, rwSimilarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\real world diagonal matrix without mask.png", diagonalMatrix);
 	performanceWithMask = placerecog.generateDiagonalMatrix(rwReference, rwQuery, *salienceMask, rwSimilarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\real world diagonal matrix with logical mask.png", diagonalMatrix);
-	std::cout << "Real-world matching without mask " << (performanceWithoutMask * 100) << "% and with logical mask " << (performanceWithMask * 100) << "%" << std::endl;
+	std::cout << "Real-world matching without mask " << (performanceWithoutMask * 100) << "% and with logical mask " << (performanceWithMask * 100) << "%" << std::endl;*/
 
 	std::system("pause");
 
@@ -167,8 +198,8 @@ int main(int argc, char* argv[]) {
 	filters.push_back(&gf);
 
 	// Set up the training image datasets
-	CachedDataset* reference = buildReferenceDataset(filters);
-	CachedDataset* query = buildQueryDataset(filters);
+	CachedDataset* reference = loadAlternativeReferenceDataset(filters);
+	CachedDataset* query = loadAlternativeQueryDataset(filters);
 	CachedDataset* rwReference = buildReferenceRealWorldDataset(filters);
 	CachedDataset* rwQuery = buildQueryRealWorldDataset(filters);
 	std::cout << "Datasets loaded" << std::endl;
