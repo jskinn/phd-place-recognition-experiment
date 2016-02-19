@@ -156,7 +156,7 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Generated salience mask" << std::endl;
 
 	// Generate a final diagonal matrix using the salience mask.
-	performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
+	performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with logical mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
 	std::cout << "Matching accuracy with logical salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
@@ -167,7 +167,7 @@ void runExperiment(ImageDatasetInterface& reference, ImageDatasetInterface& quer
 	std::cout << "Generated salience mask" << std::endl;
 
 	// Generate a final diagonal matrix using the salience mask.
-	performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *alternateSalienceMask, similarityCriteria, diagonalMatrix);	//TODO: Change to a matcher using the salience mask.
+	performanceWithMask = placerecog.generateDiagonalMatrix(reference, query, *alternateSalienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\diagonal matrix with pairwise mask.png", diagonalMatrix);
 	std::cout << "Generated masked diagonal matrix" << std::endl;
 	std::cout << "Matching accuracy with threshold salience mask: " << (performanceWithMask * 100) << "%" << std::endl;
