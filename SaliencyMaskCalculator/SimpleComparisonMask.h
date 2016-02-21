@@ -14,7 +14,7 @@
 class SimpleComparisonMask : public ImageMatcherInterface
 {
 public:
-	SimpleComparisonMask(cv::Mat averageSame, cv::Mat averageDifferent, float salientFraction);
+	SimpleComparisonMask(cv::Mat averageSame, cv::Mat averageDifferent, float salientFraction, std::string outputDebugDir);
 	virtual ~SimpleComparisonMask();
 
 	virtual float matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const;
@@ -26,8 +26,10 @@ public:
 
 private:
 	cv::Mat salientPixels;
-	cv::Mat averageSame;
-	cv::Mat averageDifferent;
+	//cv::Mat averageSame;
+	//cv::Mat averageDifferent;
+	cv::Mat sameMinusDifferent;
+	cv::Mat samePlusDifferent;
 	float numberOfSalientPixels;
 };
 

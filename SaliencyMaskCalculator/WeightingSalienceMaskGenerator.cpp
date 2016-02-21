@@ -92,5 +92,5 @@ ImageMatcherInterface* WeightingSalienceMaskGenerator::generateSalienceMask(
 	cv::imwrite(outputDebug + "\\average difference non-matching.png", outputImage);
 
 	// Use the differences between the matching and non-matching as the saliency mask
-	return new SimpleComparisonMask(avgSame, avgDifferent, salienceFraction);
+	return new SimpleComparisonMask(avgSame, avgDifferent, salienceFraction, outputDebug);
 }

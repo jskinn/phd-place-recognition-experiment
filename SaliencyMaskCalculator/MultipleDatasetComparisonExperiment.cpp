@@ -14,7 +14,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
+#include <rapidjson/prettywriter.h>
 #include "DownsampleFilter.h"
 #include "GreyscaleFilter.h"
 #include "ImageWithGroundTruthLoader.h"
@@ -58,7 +58,6 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 
 	// Create a RapidJson document to write the results into.
 	rapidjson::Document results(rapidjson::kObjectType);
-	//rapidjson::Value resultsObject(results.SetObject());
 
 	// Set some standard criteria for considering two images to have a 'similar' location
 	SimilarityCriteria similarityCriteria(300.0);
@@ -132,7 +131,7 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 
 	// Serialze the json output.
 	rapidjson::StringBuffer jsonBuffer;
-	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
+	rapidjson::PrettyWriter<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 	results.Accept(jsonWriter);
 
 	// Write the json file to a string
@@ -152,7 +151,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftAndR
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\LeftAndRightVariableOrientationDataset\\Image_", ".png", 13475, 0, 1, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\LeftAndRightVariableOrientationDataset\\Image_", ".png", 134, 0, 100, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -166,7 +165,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadMiddleOf
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadDataset\\Image_", ".png", 612, 0, 1, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadDataset\\Image_", ".png", 61, 0, 10, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -180,7 +179,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\DaytimeDataset\\Image_", ".png", 609, 0, 1, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\DaytimeDataset\\Image_", ".png", 60, 0, 10, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -194,7 +193,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\MiddayDataset\\Image_", ".png", 609, 0, 1, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\MiddayDataset\\Image_", ".png", 60, 0, 10, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -208,7 +207,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\SunsetDataset\\Image_", ".png", 609, 0, 1, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\SunsetDataset\\Image_", ".png", 60, 0, 10, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);

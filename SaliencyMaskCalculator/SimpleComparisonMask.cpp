@@ -12,19 +12,24 @@
 const float SimpleComparisonMask::DIFFERENT_WEIGHTING = 0.5f;
 const float SimpleComparisonMask::SAME_WEIGHTING = 0.5f;
 
-SimpleComparisonMask::SimpleComparisonMask(cv::Mat averageSame, cv::Mat averageDifferent, float salientFraction) :
+SimpleComparisonMask::SimpleComparisonMask(cv::Mat averageSame, cv::Mat averageDifferent, float salientFraction, std::string outputDebugDir) :
 	salientPixels(SimpleComparisonMask::findMostSalientPixels(averageSame, averageDifferent, salientFraction)),
-	averageSame(averageSame.mul(salientPixels)),
-	averageDifferent(averageDifferent.mul(salientPixels)),
+	//averageSame(averageSame.mul(salientPixels)),
+	//averageDifferent(averageDifferent.mul(salientPixels)),
 	numberOfSalientPixels(std::ceil(salientFraction * averageSame.rows * averageSame.cols))
 {
 	assert(salientFraction >= 0.0f);
 	assert(salientFraction <= 1.0f);
 	assert(numberOfSalientPixels > 0);
 
+	averageSame = averageSame.mul(salientPixels);
+	averageDifferent = averageDifferent.mul(averageDifferent);
+	sameMinusDifferent = averageSame - averageDifferent;
+	samePlusDifferent = averageSame + averageDifferent;
+
 	cv::Mat outputImage;
 	salientPixels.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\most salient pixels.png", outputImage);
+	cv::imwrite(outputDebugDir + "\\most salient pixels.png", outputImage);
 }
 
 
@@ -42,15 +47,19 @@ float SimpleComparisonMask::matchImages(const cv::Mat& imageA, const cv::Mat& im
 
 	// Calculate the score for the image, based on the difference and the mask information
 	// Assume the diff image and average images are the same size :S. I can always call resize if this becomes a problem.
-	cv::Mat diff1 = diffImage - averageSame;
-	cv::Mat diff2 = diffImage - averageDifferent;
+	// TODO: Not needed any more
+	//cv::Mat diff1 = diffImage - averageSame;
+	//cv::Mat diff2 = diffImage - averageDifferent;
 
+	// Equation is (image - avgSame)^2 - (image - averageDifferent)^2
+	// the equation simplifies to (averageSame - averageDifferent) * (-2 * diffImage + averageSame + averageDifferent)
 	// This equation should form a line crossing 0 half way between the averageSame value and the averageDifferentValue
 	// The value will be negative closer to averageSame, and positive closer to averageDifferent
 	// Maximum range is (-1,1), with a smaller slope when averageSame and averageDifferent are closer together.
 	// I could add scaling terms to each of the square differences,
 	// which adjust the overall scale and introduce some curvature, but I' haven't done that yet.
-	float score = cv::sum(diff1.mul(diff1) - diff2.mul(diff2))[0];
+	//float score = cv::sum(diff1.mul(diff1) - diff2.mul(diff2))[0];	// Old way with too much computation
+	float score = cv::sum(sameMinusDifferent.mul(-2 * diffImage + samePlusDifferent))[0];
 	// Normalize the score back to the range 0-1.
 	score = (score / (2.0f * numberOfSalientPixels)) + 0.5f;
 	assert(score >= 0.0f);
