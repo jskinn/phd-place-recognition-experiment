@@ -171,6 +171,7 @@
     <ClInclude Include="ImageWithGroundTruthLoader.h" />
     <ClInclude Include="LinearTraverseLoader.h" />
     <ClInclude Include="LogicalSalienceMask.h" />
+    <ClInclude Include="MultipleDatasetComparisonExperiment.h" />
     <ClInclude Include="PairwiseSalienceMaskGenerator.h" />
     <ClInclude Include="PlaceRecognition.h" />
     <ClInclude Include="SalienceMaskGeneratorInterface.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="ImageWithGroundTruthLoader.cpp" />
     <ClCompile Include="LinearTraverseLoader.cpp" />
     <ClCompile Include="LogicalSalienceMask.cpp" />
+    <ClCompile Include="MultipleDatasetComparisonExperiment.cpp" />
     <ClCompile Include="PairwiseSalienceMaskGenerator.cpp" />
     <ClCompile Include="PlaceRecognition.cpp" />
     <ClCompile Include="SalienceMaskGeneratorInterface.cpp" />

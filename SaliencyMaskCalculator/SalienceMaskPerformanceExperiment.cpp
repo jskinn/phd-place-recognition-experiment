@@ -52,7 +52,7 @@ void SalienceMaskPerformanceExperiment::runExperiment(std::string outputDir)
 
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
-	WeightingSalienceMaskGenerator maskGen(similarityCriteria, 0.1f);
+	WeightingSalienceMaskGenerator maskGen(similarityCriteria, 0.1f, outputDir);
 	PairwiseSalienceMaskGenerator alternateMaskGen(similarityCriteria);
 	SumOfAbsoluteDifferencesMatcher sadMatcher;
 	cv::Mat diagonalMatrix;

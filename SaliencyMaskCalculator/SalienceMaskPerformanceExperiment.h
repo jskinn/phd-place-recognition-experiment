@@ -9,6 +9,8 @@
 #define SALIENCEMASKPERFORMANCEEXPERIMENT_H_
 
 #include <memory>
+#include <opencv2/core/core.hpp>
+#include "CachedDataset.h"
 
 class SalienceMaskPerformanceExperiment
 {

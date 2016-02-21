@@ -8,13 +8,14 @@
 #ifndef WEIGHTINGSALIENCEMASKGENERATOR_H_
 #define WEIGHTINGSALIENCEMASKGENERATOR_H_
 
+#include <string>
 #include "SalienceMaskGeneratorInterface.h"
 #include "SimilarityCriteria.h"
 
 class WeightingSalienceMaskGenerator : public SalienceMaskGeneratorInterface
 {
 public:
-	WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction);
+	WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction, std::string outputDebugDir);
 	~WeightingSalienceMaskGenerator();
 
 	virtual ImageMatcherInterface* generateSalienceMask(
@@ -24,6 +25,8 @@ public:
 private:
 	SimilarityCriteria criteria;
 	float salienceFraction;
+
+	std::string outputDebug;
 };
 
 #endif /* PAIRWISESALIENCEMASKGENERATOR_H_ */

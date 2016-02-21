@@ -162,6 +162,9 @@
     <ClInclude Include="SalienceMaskPerformanceExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MultipleDatasetComparisonExperiment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -240,6 +243,9 @@
       <Filter>Dataset\Loader\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SalienceMaskPerformanceExperiment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MultipleDatasetComparisonExperiment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

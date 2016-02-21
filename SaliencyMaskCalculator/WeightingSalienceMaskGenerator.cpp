@@ -12,8 +12,8 @@
 
 #include <opencv2/highgui/highgui.hpp>	// Debug
 
-WeightingSalienceMaskGenerator::WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction) :
-	criteria(similarityCriteria), salienceFraction(salienceFraction)
+WeightingSalienceMaskGenerator::WeightingSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction, std::string outputDebugDir) :
+	criteria(similarityCriteria), salienceFraction(salienceFraction), outputDebug(outputDebugDir)
 {
 	assert(salienceFraction >= 0.0f);
 	assert(salienceFraction <= 1.0f);
@@ -86,10 +86,10 @@ ImageMatcherInterface* WeightingSalienceMaskGenerator::generateSalienceMask(
 	// Debug, show the average differences.
 	cv::Mat outputImage;
 	avgSame.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference matching.png", outputImage);
+	cv::imwrite(outputDebug + "\\average difference matching.png", outputImage);
 
 	avgDifferent.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference non-matching.png", outputImage);
+	cv::imwrite(outputDebug + "\\average difference non-matching.png", outputImage);
 
 	// Use the differences between the matching and non-matching as the saliency mask
 	return new SimpleComparisonMask(avgSame, avgDifferent, salienceFraction);

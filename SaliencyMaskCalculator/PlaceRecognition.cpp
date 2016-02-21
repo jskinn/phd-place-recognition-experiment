@@ -57,7 +57,7 @@ float PlaceRecognition::generateDiagonalMatrix(
 
 			// Compute the similarity score based on the sum of absolute differences between the images.
 			float matchScore = imageMatcher.matchImages(referenceImage.getImage(), queryImage.getImage());
-			output.at<float>(i, j) = matchScore;
+			output.at<float>(j, i) = matchScore;
 
 			// Track the lowest scoring (most similar) image, and whether it counts as 'close' to the query image.
 			if (matchScore <= bestScore) {
@@ -71,7 +71,7 @@ float PlaceRecognition::generateDiagonalMatrix(
 		}
 	}
 
-	assert(similarMatchCount < query.count());
+	assert(similarMatchCount <= query.count());
 	return similarMatchCount / query.count();
 }
 
@@ -106,7 +106,7 @@ float PlaceRecognition::recalculatePerformance(const ImageDatasetInterface& refe
 				continue;
 			}
 
-			float score = diagonalMatrix.at<float>(i, j);
+			float score = diagonalMatrix.at<float>(j, i);
 			if (score < bestScore) {
 				bestScore = score;
 				bestIsSimilar = similarityCriteria.isImageSimilar(queryImage, referenceImage);
