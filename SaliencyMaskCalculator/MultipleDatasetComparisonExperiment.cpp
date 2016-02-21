@@ -151,7 +151,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftAndR
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\LeftAndRightVariableOrientationDataset\\Image_", ".png", 134, 0, 100, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\LeftAndRightVariableOrientationDataset\\Image_", ".png", 13475, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -165,7 +165,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadMiddleOf
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadDataset\\Image_", ".png", 61, 0, 10, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadDataset\\Image_", ".png", 612, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -179,7 +179,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\DaytimeDataset\\Image_", ".png", 60, 0, 10, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\DaytimeDataset\\Image_", ".png", 609, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -193,7 +193,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\MiddayDataset\\Image_", ".png", 60, 0, 10, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\MiddayDataset\\Image_", ".png", 609, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
@@ -207,7 +207,7 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\SunsetDataset\\Image_", ".png", 60, 0, 10, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\SunsetDataset\\Image_", ".png", 609, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
