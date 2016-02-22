@@ -34,6 +34,7 @@ private:
 	std::unique_ptr<CachedDataset> loadLeftLaneMorningDataset(const std::list<ImageFilterInterface*>& filters);
 	std::unique_ptr<CachedDataset> loadLeftLaneMiddayDataset(const std::list<ImageFilterInterface*>& filters);
 	std::unique_ptr<CachedDataset> loadLeftLaneSunsetDataset(const std::list<ImageFilterInterface*>& filters);
+	std::unique_ptr<CachedDataset> loadNightDataset(const std::list<ImageFilterInterface*>& filters);
 };
 
 #endif /* SALIENCEMASKPERFORMANCEEXPERIMENT_H_ */

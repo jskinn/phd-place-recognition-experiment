@@ -11,8 +11,10 @@
 
 #include <opencv2/highgui/highgui.hpp>	// Debug
 
-PairwiseSalienceMaskGenerator::PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria) :
-	criteria(similarityCriteria)
+PairwiseSalienceMaskGenerator::PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction, std::string outputDebugDir) :
+	criteria(similarityCriteria),
+	outputDebugDir(outputDebugDir),
+	salienceFraction(salienceFraction)
 {
 }
 
@@ -76,15 +78,15 @@ ImageMatcherInterface* PairwiseSalienceMaskGenerator::generateSalienceMask(
 	avgDifferent /= (float)differentCount;
 
 	// Debug, show the average differences.
-	/*cv::Mat outputImage;
+	cv::Mat outputImage;
 	avgSame.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference matching.png", outputImage);
+	cv::imwrite(outputDebugDir + "\\average difference matching.png", outputImage);
 
 	avgDifferent.convertTo(outputImage, CV_8UC1, 255.0);
-	cv::imwrite("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-01-21\\average difference non-matching.png", outputImage);*/
+	cv::imwrite(outputDebugDir + "\\average difference non-matching.png", outputImage);
 
 	// Use the differences between the matching and non-matching as the saliency mask
 	cv::Mat outputMask;
 	cv::absdiff(avgSame, avgDifferent, outputMask);
-	return new ThresholdSalienceMask(outputMask, 0.5);
+	return new ThresholdSalienceMask(outputMask, salienceFraction, outputDebugDir);
 }

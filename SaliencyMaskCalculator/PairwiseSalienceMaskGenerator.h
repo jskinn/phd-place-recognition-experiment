@@ -14,7 +14,7 @@
 class PairwiseSalienceMaskGenerator : public SalienceMaskGeneratorInterface
 {
 public:
-	PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria);
+	PairwiseSalienceMaskGenerator(const SimilarityCriteria& similarityCriteria, float salienceFraction, std::string outputDebugDir);
 	~PairwiseSalienceMaskGenerator();
 
 	virtual ImageMatcherInterface* generateSalienceMask(
@@ -23,6 +23,8 @@ public:
 
 private:
 	SimilarityCriteria criteria;
+	float salienceFraction;
+	std::string outputDebugDir;
 };
 
 #endif /* PAIRWISESALIENCEMASKGENERATOR_H_ */

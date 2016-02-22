@@ -16,14 +16,16 @@
 class ThresholdSalienceMask : public ImageMatcherInterface
 {
 public:
-	ThresholdSalienceMask(cv::Mat& maskImage, float thresholdFraction);
+	ThresholdSalienceMask(cv::Mat& maskImage, float thresholdFraction, std::string outputDebugDir);
 	virtual ~ThresholdSalienceMask();
 
 	virtual float matchImages(const cv::Mat& imageA, const cv::Mat& imageB) const;
 
 private:
 	cv::Mat mask;
-	int removedPixelCount;
+	float numberOfSalientPixels;
+
+	cv::Mat ThresholdSalienceMask::findMostSalientPixels(const cv::Mat& salienceImage, const float salientFraction) const;
 };
 
 #endif /* THRESHOLDSALIENCEMASK_H_ */

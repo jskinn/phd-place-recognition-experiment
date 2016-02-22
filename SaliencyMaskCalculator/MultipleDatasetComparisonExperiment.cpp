@@ -20,6 +20,7 @@
 #include "ImageWithGroundTruthLoader.h"
 #include "PlaceRecognition.h"
 #include "WeightingSalienceMaskGenerator.h"
+#include "PairwiseSalienceMaskGenerator.h"
 #include "ImageMatcherInterface.h"
 #include "WeightingSalienceMaskGenerator.h"
 #include "SumOfAbsoluteDifferencesMatcher.h"
@@ -54,6 +55,8 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Loaded left lane midday dataset... (" << testLeftLaneMiddayPath->count() << " images)" << std::endl;
 	std::unique_ptr<CachedDataset> testLeftLaneSunsetPath = loadLeftLaneSunsetDataset(filters);
 	std::cout << "Loaded left lane sunset dataset... (" << testLeftLaneSunsetPath->count() << " images)" << std::endl;
+	std::unique_ptr<CachedDataset> testNightPath = loadNightDataset(filters);
+	std::cout << "Loaded middle of the road night dataset... (" << testNightPath->count() << " images)" << std::endl;
 	std::cout << "Datasets loaded" << std::endl;
 
 	// Create a RapidJson document to write the results into.
@@ -83,17 +86,21 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Average similar images for the left lane sunset dataset: " << avgSimilar << std::endl;
 	results.AddMember("left-lane-sunset-average-similar-count", avgSimilar, results.GetAllocator());
 
+	avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testNightPath, similarityCriteria);
+	std::cout << "Average similar images for the left lane sunset dataset: " << avgSimilar << std::endl;
+	results.AddMember("night-average-similar-count", avgSimilar, results.GetAllocator());
+
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
-	WeightingSalienceMaskGenerator maskGen(similarityCriteria, 0.1f, outputDir);
+	PairwiseSalienceMaskGenerator maskGen(similarityCriteria, 0.1f, outputDir);
 	SumOfAbsoluteDifferencesMatcher sadMatcher;
 	ImageMatcherInterface* salienceMask;
 	cv::Mat diagonalMatrix;
 	float performance;
 
 	// Generate a salience mask based on the reference dataset. This will take forever.
-	salienceMask = maskGen.generateSalienceMask(*highVariationDataset, *highVariationDataset);
-	std::cout << "Generated salience mask" << std::endl;
+	/*salienceMask = maskGen.generateSalienceMask(*highVariationDataset, *highVariationDataset);
+	std::cout << "Generated salience mask" << std::endl;*/
 
 	// For sanity check, verify on the same dataset used to generate the mask
 	// TODO: Cut this because it takes too long.
@@ -113,10 +120,10 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Matching accuracy for middle of the road without mask: " << (performance * 100) << "%" << std::endl;
 	results.AddMember("middle-of-the-road-without-mask", performance, results.GetAllocator());
 
-	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testMiddleOfTheRoadPath, *salienceMask, similarityCriteria, diagonalMatrix);
+	/*performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testMiddleOfTheRoadPath, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage(outputDir + "\\diagonal matrix middle of the road with mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for middle of the road with mask: " << (performance * 100) << "%" << std::endl;
-	results.AddMember("middle-of-the-road-with-mask", performance, results.GetAllocator());
+	results.AddMember("middle-of-the-road-with-mask", performance, results.GetAllocator());*/
 
 	// Test the performance on a straight path with the salience mask
 	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneMorningPath, sadMatcher, similarityCriteria, diagonalMatrix);
@@ -124,10 +131,10 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Matching accuracy for left lane morning without mask: " << (performance * 100) << "%" << std::endl;
 	results.AddMember("left-lane-morning-without-mask", performance, results.GetAllocator());
 
-	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneMorningPath, *salienceMask, similarityCriteria, diagonalMatrix);
+	/*performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneMorningPath, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage(outputDir + "\\diagonal matrix left lane morning with mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for left lane morning with mask: " << (performance * 100) << "%" << std::endl;
-	results.AddMember("left-lane-morning-with-mask", performance, results.GetAllocator());
+	results.AddMember("left-lane-morning-with-mask", performance, results.GetAllocator());*/
 
 	// Test the performance on a straight path with the salience mask
 	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneMiddayPath, sadMatcher, similarityCriteria, diagonalMatrix);
@@ -135,10 +142,10 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Matching accuracy for left lane midday without mask: " << (performance * 100) << "%" << std::endl;
 	results.AddMember("left-lane-midday-without-mask", performance, results.GetAllocator());
 
-	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneMiddayPath, *salienceMask, similarityCriteria, diagonalMatrix);
+	/*performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneMiddayPath, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage(outputDir + "\\diagonal matrix left lane midday with mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for left lane midday with mask: " << (performance * 100) << "%" << std::endl;
-	results.AddMember("left-lane-midday-with-mask", performance, results.GetAllocator());
+	results.AddMember("left-lane-midday-with-mask", performance, results.GetAllocator());*/
 
 	// Test the performance on a straight path with the salience mask
 	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneSunsetPath, sadMatcher, similarityCriteria, diagonalMatrix);
@@ -146,10 +153,16 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Matching accuracy for left lane sunset without mask: " << (performance * 100) << "%" << std::endl;
 	results.AddMember("left-lane-sunset-without-mask", performance, results.GetAllocator());
 
-	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneSunsetPath, *salienceMask, similarityCriteria, diagonalMatrix);
+	/*performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testLeftLaneSunsetPath, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage(outputDir + "\\diagonal matrix left lane sunset with mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for left lane sunset with mask: " << (performance * 100) << "%" << std::endl;
-	results.AddMember("left-lane-sunset-with-mask", performance, results.GetAllocator());
+	results.AddMember("left-lane-sunset-with-mask", performance, results.GetAllocator());*/
+
+	// Test the performance on a straight path with the salience mask
+	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testNightPath, sadMatcher, similarityCriteria, diagonalMatrix);
+	writeFloatImage(outputDir + "\\diagonal matrix night without mask.png", diagonalMatrix);
+	std::cout << "Matching accuracy for night without mask: " << (performance * 100) << "%" << std::endl;
+	results.AddMember("night-without-mask", performance, results.GetAllocator());
 
 	// Serialze the json output.
 	rapidjson::StringBuffer jsonBuffer;
@@ -230,6 +243,20 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 	std::list<ImageLoaderInterface*> loaders;
 
 	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\Left-Lane\\SunsetDataset\\Image_", ".png", 609, 0, 1, 0, filters);
+	loaders.push_back(&imageLoader1);
+
+	return std::make_unique<CachedDataset>(loaders);
+}
+
+/**
+* Load a dataset that travels down the left lane in the middle of the day
+* Dataset size is 609 images
+*/
+std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadNightDataset(const std::list<ImageFilterInterface*>& filters)
+{
+	std::list<ImageLoaderInterface*> loaders;
+
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadNightDataset\\Image_", ".png", 609, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
