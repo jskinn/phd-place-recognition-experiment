@@ -13,6 +13,7 @@
 #include <memory>
 #include <opencv2/core/core.hpp>
 #include "CachedDataset.h"
+#include "SimilarityCriteria.h"
 #include "ImageFilterInterface.h"
 
 class MultipleDatasetComparisonExperiment
@@ -24,7 +25,9 @@ public:
 	void runExperiment(std::string outputDir);
 
 private:
-	void writeFloatImage(std::string filename, cv::Mat& floatImage);
+	float calculateAverageSimilarImages(const CachedDataset& reference, const CachedDataset& query, const SimilarityCriteria& similarityCriteria) const;
+
+	void writeFloatImage(std::string filename, const cv::Mat& floatImage);
 
 	std::unique_ptr<CachedDataset> loadLeftAndRightVariableOrientationDataset(const std::list<ImageFilterInterface*>& filters);
 	std::unique_ptr<CachedDataset> loadMiddleOfTheRoadDataset(const std::list<ImageFilterInterface*>& filters);

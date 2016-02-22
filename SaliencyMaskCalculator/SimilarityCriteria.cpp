@@ -24,13 +24,15 @@ bool SimilarityCriteria::isImageSimilar(const DatasetImage& baseImage, const Dat
 
 		// The position is close to the other position, check orientation
 		// For now, check the orientations are approximately equal. In the future, should check forward and up vectors are both within a set angle of each other.
-		cv::Vec3d rotA = baseImage.getOrientation();
+		// Ignore orientation for now, this calculation is wrong.
+		/*cv::Vec3d rotA = baseImage.getOrientation();
 		cv::Vec3d rotB = comparisonImage.getOrientation();
-		if (std::abs(rotA[DatasetImage::X_AXIS] - rotB[DatasetImage::X_AXIS]) < 1 &&
-			std::abs(rotA[DatasetImage::Y_AXIS] - rotB[DatasetImage::Y_AXIS]) < 1 &&
-			std::abs(rotA[DatasetImage::Z_AXIS] - rotB[DatasetImage::Z_AXIS]) < 1) {
+		if (std::abs(rotA[DatasetImage::X_AXIS] - rotB[DatasetImage::X_AXIS]) < 10 &&
+			std::abs(rotA[DatasetImage::Y_AXIS] - rotB[DatasetImage::Y_AXIS]) < 10 &&
+			std::abs(rotA[DatasetImage::Z_AXIS] - rotB[DatasetImage::Z_AXIS]) < 10) {
 			return true;
-		}
+		}*/
+		return true;
 	}
 
 	return false;

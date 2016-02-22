@@ -62,6 +62,27 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	// Set some standard criteria for considering two images to have a 'similar' location
 	SimilarityCriteria similarityCriteria(300.0);
 
+	// Verify the number of similar images between each of the datasets and the reference dataset
+	/*float avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *highVariationDataset, similarityCriteria);
+	std::cout << "Average similar images for the reference dataset: " << avgSimilar << std::endl;
+	results.AddMember("reference-average-similar-count", avgSimilar, results.GetAllocator());*/
+
+	float avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testMiddleOfTheRoadPath, similarityCriteria);
+	std::cout << "Average similar images for the middle of the road dataset: " << avgSimilar << std::endl;
+	results.AddMember("middle-of-road-average-similar-count", avgSimilar, results.GetAllocator());
+
+	avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testLeftLaneMorningPath, similarityCriteria);
+	std::cout << "Average similar images for the left lane morning dataset: " << avgSimilar << std::endl;
+	results.AddMember("left-lane-morning-average-similar-count", avgSimilar, results.GetAllocator());
+
+	avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testLeftLaneMiddayPath, similarityCriteria);
+	std::cout << "Average similar images for the left lane midday dataset: " << avgSimilar << std::endl;
+	results.AddMember("left-lane-midday-average-similar-count", avgSimilar, results.GetAllocator());
+
+	avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testLeftLaneSunsetPath, similarityCriteria);
+	std::cout << "Average similar images for the left lane sunset dataset: " << avgSimilar << std::endl;
+	results.AddMember("left-lane-sunset-average-similar-count", avgSimilar, results.GetAllocator());
+
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
 	WeightingSalienceMaskGenerator maskGen(similarityCriteria, 0.1f, outputDir);
@@ -75,7 +96,8 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Generated salience mask" << std::endl;
 
 	// For sanity check, verify on the same dataset used to generate the mask
-	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *highVariationDataset, sadMatcher, similarityCriteria, diagonalMatrix);
+	// TODO: Cut this because it takes too long.
+	/*performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *highVariationDataset, sadMatcher, similarityCriteria, diagonalMatrix);
 	writeFloatImage(outputDir + "\\diagonal matrix reference without mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for reference dataset without mask: " << (performance * 100) << "%" << std::endl;
 	results.AddMember("reference-without-mask", performance, results.GetAllocator());
@@ -83,7 +105,7 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *highVariationDataset, *salienceMask, similarityCriteria, diagonalMatrix);
 	writeFloatImage(outputDir + "\\diagonal matrix reference with mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for reference dataset with mask: " << (performance * 100) << "%" << std::endl;
-	results.AddMember("reference-with-mask", performance, results.GetAllocator());
+	results.AddMember("reference-with-mask", performance, results.GetAllocator());*/
 
 	// Test the performance on a straight path with the salience mask
 	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testMiddleOfTheRoadPath, sadMatcher, similarityCriteria, diagonalMatrix);
@@ -140,7 +162,7 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	output.close();
 
 	// Clean up
-	delete salienceMask;
+	//delete salienceMask;
 }
 
 /**
@@ -217,9 +239,26 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
  * A simple helper to write out float images from a range 0-1,
  * since im::write can only handle 8 bit images range 0-255
  */
-void MultipleDatasetComparisonExperiment::writeFloatImage(std::string filename, cv::Mat& floatImage)
+void MultipleDatasetComparisonExperiment::writeFloatImage(std::string filename, const cv::Mat& floatImage)
 {
 	cv::Mat outputImage;
-	floatImage.convertTo(outputImage, CV_8UC1, 255.0);
+	double min = 0, max = 0;
+	cv::minMaxLoc(floatImage, &min, &max);
+
+	floatImage.convertTo(outputImage, CV_8UC1, 255.0 / max - min);
 	cv::imwrite(filename, outputImage);
+}
+
+float MultipleDatasetComparisonExperiment::calculateAverageSimilarImages(const CachedDataset& reference, const CachedDataset& query, const SimilarityCriteria& similarityCriteria) const
+{
+	float meanSimilar = 0;
+	for (int i = 0; i < query.count(); ++i) {
+		for (int j = 0; j < reference.count(); ++j) {
+			if (similarityCriteria.isImageSimilar(query.get(i), reference.get(j))) {
+				meanSimilar++;
+			}
+		}
+	}
+
+	return meanSimilar / query.count();
 }
