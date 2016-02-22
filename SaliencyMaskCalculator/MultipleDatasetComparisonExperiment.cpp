@@ -55,8 +55,6 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	std::cout << "Loaded left lane midday dataset... (" << testLeftLaneMiddayPath->count() << " images)" << std::endl;
 	std::unique_ptr<CachedDataset> testLeftLaneSunsetPath = loadLeftLaneSunsetDataset(filters);
 	std::cout << "Loaded left lane sunset dataset... (" << testLeftLaneSunsetPath->count() << " images)" << std::endl;
-	std::unique_ptr<CachedDataset> testNightPath = loadNightDataset(filters);
-	std::cout << "Loaded middle of the road night dataset... (" << testNightPath->count() << " images)" << std::endl;
 	std::cout << "Datasets loaded" << std::endl;
 
 	// Create a RapidJson document to write the results into.
@@ -85,10 +83,6 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testLeftLaneSunsetPath, similarityCriteria);
 	std::cout << "Average similar images for the left lane sunset dataset: " << avgSimilar << std::endl;
 	results.AddMember("left-lane-sunset-average-similar-count", avgSimilar, results.GetAllocator());
-
-	avgSimilar = calculateAverageSimilarImages(*highVariationDataset, *testNightPath, similarityCriteria);
-	std::cout << "Average similar images for the left lane sunset dataset: " << avgSimilar << std::endl;
-	results.AddMember("night-average-similar-count", avgSimilar, results.GetAllocator());
 
 	// Set up the place recognition object, salience mask generator, and output image
 	PlaceRecognition placerecog;
@@ -157,12 +151,6 @@ void MultipleDatasetComparisonExperiment::runExperiment(std::string outputDir)
 	writeFloatImage(outputDir + "\\diagonal matrix left lane sunset with mask.png", diagonalMatrix);
 	std::cout << "Matching accuracy for left lane sunset with mask: " << (performance * 100) << "%" << std::endl;
 	results.AddMember("left-lane-sunset-with-mask", performance, results.GetAllocator());*/
-
-	// Test the performance on a straight path with the salience mask
-	performance = placerecog.generateDiagonalMatrix(*highVariationDataset, *testNightPath, sadMatcher, similarityCriteria, diagonalMatrix);
-	writeFloatImage(outputDir + "\\diagonal matrix night without mask.png", diagonalMatrix);
-	std::cout << "Matching accuracy for night without mask: " << (performance * 100) << "%" << std::endl;
-	results.AddMember("night-without-mask", performance, results.GetAllocator());
 
 	// Serialze the json output.
 	rapidjson::StringBuffer jsonBuffer;
@@ -250,13 +238,13 @@ std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadLeftLane
 
 /**
 * Load a dataset that travels down the left lane in the middle of the day
-* Dataset size is 609 images
+* Dataset size is 13475 images
 */
 std::unique_ptr<CachedDataset> MultipleDatasetComparisonExperiment::loadNightDataset(const std::list<ImageFilterInterface*>& filters)
 {
 	std::list<ImageLoaderInterface*> loaders;
 
-	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadNightDataset\\Image_", ".png", 609, 0, 1, 0, filters);
+	ImageWithGroundTruthLoader imageLoader1("C:\\LocalUser\\Documents\\Renders\\city dataset 2016-02-18\\MiddleOfTheRoadNightDatasetVariableOrientation\\Image_", ".png", 13475, 0, 1, 0, filters);
 	loaders.push_back(&imageLoader1);
 
 	return std::make_unique<CachedDataset>(loaders);
