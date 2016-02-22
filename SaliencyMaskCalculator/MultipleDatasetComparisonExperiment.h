@@ -5,8 +5,8 @@
 *      Author: john
 */
 
-#ifndef SALIENCEMASKPERFORMANCEEXPERIMENT_H_
-#define SALIENCEMASKPERFORMANCEEXPERIMENT_H_
+#ifndef MULTIPLEDATASETCOMPARISONEXPERIMENT_H_
+#define MULTIPLEDATASETCOMPARISONEXPERIMENT_H_
 
 #include <string>
 #include <list>
@@ -37,4 +37,4 @@ private:
 	std::unique_ptr<CachedDataset> loadNightDataset(const std::list<ImageFilterInterface*>& filters);
 };
 
-#endif /* SALIENCEMASKPERFORMANCEEXPERIMENT_H_ */
+#endif /* MULTIPLEDATASETCOMPARISONEXPERIMENT_H_ */

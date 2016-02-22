@@ -10,7 +10,7 @@
 #include "AverageDifferenceMaskGenerator.h"
 #include "ThresholdSalienceMask.h"
 
-AverageDifferenceMaskGenerator::AverageDifferenceMaskGenerator()
+AverageDifferenceMaskGenerator::AverageDifferenceMaskGenerator(std::string outputDebugDir) : outputDebugDir(outputDebugDir)
 {
 }
 
@@ -51,5 +51,5 @@ ImageMatcherInterface* AverageDifferenceMaskGenerator::generateSalienceMask(
 		}
 	}
 	//TODO: This needs to be inverted somehow?
-	return new ThresholdSalienceMask(cv::Mat(avgDiff / datasetSize), 0.5);
+	return new ThresholdSalienceMask(cv::Mat(avgDiff / datasetSize), 0.5, outputDebugDir);
 }

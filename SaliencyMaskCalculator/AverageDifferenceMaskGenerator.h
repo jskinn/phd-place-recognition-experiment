@@ -14,12 +14,15 @@
 class AverageDifferenceMaskGenerator : public SalienceMaskGeneratorInterface
 {
 public:
-	AverageDifferenceMaskGenerator();
+	AverageDifferenceMaskGenerator(std::string outputDebugDir);
 	virtual ~AverageDifferenceMaskGenerator();
 
 	virtual ImageMatcherInterface* generateSalienceMask(
 		const ImageDatasetInterface& reference,
 		const ImageDatasetInterface& query) const;
+
+private:
+	std::string outputDebugDir;
 };
 
 #endif /* AVERAGEDIFFERENCEMASKGENERATOR_H_ */

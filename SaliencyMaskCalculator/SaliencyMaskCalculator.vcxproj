@@ -172,6 +172,7 @@
     <ClInclude Include="LinearTraverseLoader.h" />
     <ClInclude Include="LogicalSalienceMask.h" />
     <ClInclude Include="MultipleDatasetComparisonExperiment.h" />
+    <ClInclude Include="MultipleDatasetComparisonSecondExperiment.h" />
     <ClInclude Include="PairwiseSalienceMaskGenerator.h" />
     <ClInclude Include="PlaceRecognition.h" />
     <ClInclude Include="SalienceMaskGeneratorInterface.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="LinearTraverseLoader.cpp" />
     <ClCompile Include="LogicalSalienceMask.cpp" />
     <ClCompile Include="MultipleDatasetComparisonExperiment.cpp" />
+    <ClCompile Include="MultipleDatasetComparisonSecondExperiment.cpp" />
     <ClCompile Include="PairwiseSalienceMaskGenerator.cpp" />
     <ClCompile Include="PlaceRecognition.cpp" />
     <ClCompile Include="SalienceMaskGeneratorInterface.cpp" />
