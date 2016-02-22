@@ -1,5 +1,5 @@
 /*
-* MultipleDatasetComparisonExperiment.cpp
+* MultipleDatasetComparisonSecondExperiment.cpp
 *
 *  Created on: 19 Feb 2016
 *      Author: john
@@ -96,13 +96,9 @@ void MultipleDatasetComparisonSecondExperiment::runExperiment(std::string output
 	{
 		std::string timeOfDayString = getTimeOfDayString(timeOfDay);
 		rapidjson::Value nestedResults(rapidjson::kObjectType);
-		results.AddMember(
-			rapidjson::Value(timeOfDayString.c_str(), results.GetAllocator()).Move(),
-			nestedResults,
-			results.GetAllocator());
 
 		for (int pass = MultipleDatasetComparisonSecondExperiment::PASS_FIRST;
-		pass < MultipleDatasetComparisonSecondExperiment::PASS_LAST; ++pass)
+		pass <= MultipleDatasetComparisonSecondExperiment::PASS_LAST; ++pass)
 		{
 			std::string passString = getPassString(pass);
 			std::unique_ptr<CachedDataset> queryDataset = loadDataset(timeOfDay, pass, filters);
@@ -117,6 +113,11 @@ void MultipleDatasetComparisonSecondExperiment::runExperiment(std::string output
 				performance,
 				results.GetAllocator());
 		}
+
+		results.AddMember(
+			rapidjson::Value(timeOfDayString.c_str(), results.GetAllocator()).Move(),
+			nestedResults,
+			results.GetAllocator());
 	}
 
 	// Serialze the json output.
@@ -197,7 +198,7 @@ std::string MultipleDatasetComparisonSecondExperiment::getPassString(int pass) c
 		return "LeftOffset500Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_900:
-		return "LeftOfset900Dataset";
+		return "LeftOffset900Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_15:
 		return "Right15Dataset";

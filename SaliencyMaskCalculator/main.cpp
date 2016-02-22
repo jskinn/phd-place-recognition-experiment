@@ -6,12 +6,12 @@
 */
 
 #include "stdafx.h"
-#include "MultipleDatasetComparisonExperiment.h"
+#include "MultipleDatasetComparisonSecondExperiment.h"
 
 // Main, do all the things.
 int main(int argc, char* argv[])
 {
-	MultipleDatasetComparisonExperiment experiment;
+	MultipleDatasetComparisonSecondExperiment experiment;
 	experiment.runExperiment("C:\\LocalUser\\Documents\\Results");
 
 	return 0;
