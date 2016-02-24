@@ -31,26 +31,38 @@ const int MultipleDatasetComparisonSecondExperiment::TIME_OF_DAY_AFTERNOON = 3;
 const int MultipleDatasetComparisonSecondExperiment::TIME_OF_DAY_SUNSET = 4;
 
 const int MultipleDatasetComparisonSecondExperiment::PASS_FIRST = 0;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LAST = 18;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LAST = 30;
 const int MultipleDatasetComparisonSecondExperiment::PASS_BASELINE = 0;
-const int MultipleDatasetComparisonSecondExperiment::PASS_DOWN_15 = 1;
-const int MultipleDatasetComparisonSecondExperiment::PASS_DOWN_30 = 2;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_15 = 3;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_30 = 4;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250 = 5;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250_DOWN_15 = 6;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250_UP_15 = 7;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_500 = 8;
-const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_900 = 9;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_15 = 10;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_30 = 11;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250 = 12;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250_DOWN_15 = 13;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250_UP_15 = 14;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_500 = 15;
-const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_900 = 16;
-const int MultipleDatasetComparisonSecondExperiment::PASS_UP_15 = 17;
-const int MultipleDatasetComparisonSecondExperiment::PASS_UP_30 = 18;
+const int MultipleDatasetComparisonSecondExperiment::PASS_DOWN_5 = 1;
+const int MultipleDatasetComparisonSecondExperiment::PASS_DOWN_10 = 2;
+const int MultipleDatasetComparisonSecondExperiment::PASS_DOWN_15 = 3;
+const int MultipleDatasetComparisonSecondExperiment::PASS_DOWN_30 = 4;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_5 = 5;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_10 = 6;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_15 = 7;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_30 = 8;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_50 = 9;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_100 = 10;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250 = 11;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250_DOWN_15 = 12;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250_UP_15 = 13;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_500 = 14;
+const int MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_900 = 15;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_5 = 16;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_10 = 17;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_15 = 18;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_30 = 19;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_50 = 20;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_100 = 21;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250 = 22;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250_DOWN_15 = 23;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250_UP_15 = 24;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_500 = 25;
+const int MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_900 = 26;
+const int MultipleDatasetComparisonSecondExperiment::PASS_UP_5 = 27;
+const int MultipleDatasetComparisonSecondExperiment::PASS_UP_10 = 28;
+const int MultipleDatasetComparisonSecondExperiment::PASS_UP_15 = 29;
+const int MultipleDatasetComparisonSecondExperiment::PASS_UP_30 = 30;
 
 MultipleDatasetComparisonSecondExperiment::MultipleDatasetComparisonSecondExperiment()
 {
@@ -173,17 +185,35 @@ std::string MultipleDatasetComparisonSecondExperiment::getPassString(int pass) c
 	default:
 		return "BaselineDataset";
 		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_DOWN_5:
+		return "Down5Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_DOWN_10:
+		return "Down10Dataset";
+		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_DOWN_15:
 		return "Down15Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_DOWN_30:
 		return "Down30Dataset";
 		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_5:
+		return "Left5Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_10:
+		return "Left10Dataset";
+		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_15:
 		return "Left15Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_30:
 		return "Left30Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_50:
+		return "LeftOffset50Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_100:
+		return "LeftOffset100Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_250:
 		return "LeftOffset250Dataset";
@@ -200,11 +230,23 @@ std::string MultipleDatasetComparisonSecondExperiment::getPassString(int pass) c
 	case MultipleDatasetComparisonSecondExperiment::PASS_LEFT_OFFSET_900:
 		return "LeftOffset900Dataset";
 		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_5:
+		return "Right5Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_10:
+		return "Right10Dataset";
+		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_15:
 		return "Right15Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_30:
 		return "Right30Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_50:
+		return "RightOffset50Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_100:
+		return "RightOffset100Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_250:
 		return "RightOffset250Dataset";
@@ -220,6 +262,12 @@ std::string MultipleDatasetComparisonSecondExperiment::getPassString(int pass) c
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_RIGHT_OFFSET_900:
 		return "RightOffset900Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_UP_5:
+		return "Up5Dataset";
+		break;
+	case MultipleDatasetComparisonSecondExperiment::PASS_UP_10:
+		return "Up10Dataset";
 		break;
 	case MultipleDatasetComparisonSecondExperiment::PASS_UP_15:
 		return "Up15Dataset";
